@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin | Michelini Perícias</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-dark: #0b2b40;
+            --primary-accent: #d9a13b;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f0f2f5;
+        }
+
+        .sidebar {
+            background: var(--primary-dark);
+            min-height: 100vh;
+            color: white;
+        }
+
+        .sidebar .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            padding: 12px 20px;
+            border-radius: 10px;
+            margin-bottom: 5px;
+            transition: all 0.3s;
+        }
+
+        .sidebar .nav-link:hover,
+        .sidebar .nav-link.active {
+            background: var(--primary-accent);
+            color: var(--primary-dark);
+        }
+
+        .card-custom {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+
+        .card-custom:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary-custom {
+            background: var(--primary-accent);
+            border: none;
+            color: var(--primary-dark);
+            font-weight: 600;
+        }
+
+        .btn-primary-custom:hover {
+            background: #c28a2c;
+            color: white;
+        }
+
+        .modal-xl {
+            max-width: 90%;
+        }
+
+        .editor-toolbar {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 8px 8px 0 0;
+            border: 1px solid #dee2e6;
+        }
+
+        .editor-content {
+            border: 1px solid #dee2e6;
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            padding: 15px;
+            min-height: 400px;
+        }
+
+        .tag-input {
+            display: inline-block;
+            background: #e9ecef;
+            padding: 5px 10px;
+            border-radius: 20px;
+            margin: 5px;
+        }
+
+        .tag-input .remove {
+            cursor: pointer;
+            margin-left: 8px;
+            color: #dc3545;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 px-0 sidebar">
+                <div class="p-4">
+                    <h4 class="text-center mb-4">
+                        <i class="fas fa-microscope"></i> Admin
+                    </h4>
+                </div>
+                <nav class="nav flex-column">
+                    <a class="nav-link active" href="#" onclick="showSection('dashboard')">
+                        <i class="fas fa-chart-line me-2"></i> Dashboard
+                    </a>
+                    <a class="nav-link" href="#" onclick="showSection('artigos')">
+                        <i class="fas fa-book me-2"></i> Artigos
+                    </a>
+                    <a class="nav-link" href="#" onclick="showSection('novo-artigo')">
+                        <i class="fas fa-plus-circle me-2"></i> Novo Artigo
+                    </a>
+                    <a class="nav-link" href="#" onclick="showSection('social-media')">
+                        <i class="fas fa-share-alt me-2"></i> Redes Sociais
+                    </a>
+                    <a class="nav-link" href="#" onclick="showSection('ia-prompts')">
+                        <i class="fas fa-robot me-2"></i> IA Prompts
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-9 col-lg-10 p-4">
+                <!-- Dashboard -->
+                <div id="dashboard-section">
+                    <h2 class="mb-4">Dashboard</h2>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <div class="card card-custom">
+                                <div class="card-body">
+                                    <h5 class="card-title text-muted">Total de Artigos</h5>
+                                    <h2 class="display-4" id="total-artigos">0</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="card card-custom">
+                                <div class="card-body">
+                                    <h5 class="card-title text-muted">Publicados</h5>
+                                    <h2 class="display-4" id="artigos-publicados">0</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="card card-custom">
+                                <div class="card-body">
+                                    <h5 class="card-title text-muted">Rascunhos</h5>
+                                    <h2 class="display-4" id="artigos-rascunho">0</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lista de Artigos -->
+                <div id="artigos-section" class="hidden">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2>Artigos</h2>
+                        <button class="btn btn-primary-custom" onclick="showSection('novo-artigo')">
+                            <i class="fas fa-plus"></i> Novo Artigo
+                        </button>
+                    </div>
+                    <div id="artigos-list" class="row"></div>
+                </div>
+
+                <!-- Novo/Editar Artigo -->
+                <div id="novo-artigo-section" class="hidden">
+                    <div class="card card-custom">
+                        <div class="card-body">
+                            <h3 id="form-title">Novo Artigo</h3>
+                            <form id="artigo-form">
+                                <div class="mb-3">
+                                    <label class="form-label">ID do Artigo (usado na URL)</label>
+                                    <input type="text" class="form-control" id="artigo-id" required>
+                                    <small class="text-muted">Ex: novo-detran-sp-2026</small>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Título</label>
+                                    <input type="text" class="form-control" id="artigo-titulo" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Subtítulo</label>
+                                    <input type="text" class="form-control" id="artigo-subtitulo">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Categoria</label>
+                                    <select class="form-control" id="artigo-categoria">
+                                        <option>Legislação</option>
+                                        <option>Perícia Judicial</option>
+                                        <option>Engenharia Mecânica</option>
+                                        <option>Jurisprudência</option>
+                                        <option>Tutorial</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Resumo</label>
+                                    <textarea class="form-control" id="artigo-resumo" rows="3"></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Tags</label>
+                                    <div id="tags-container"></div>
+                                    <div class="input-group mt-2">
+                                        <input type="text" class="form-control" id="tag-input"
+                                            placeholder="Adicionar tag">
+                                        <button class="btn btn-outline-secondary" type="button"
+                                            onclick="addTag()">+</button>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Tempo de Leitura (minutos)</label>
+                                    <input type="number" class="form-control" id="artigo-tempo-leitura" value="10">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Conteúdo HTML</label>
+                                    <div class="editor-toolbar">
+                                        <button type="button" class="btn btn-sm btn-light"
+                                            onclick="insertHTML('<h2>')">H2</button>
+                                        <button type="button" class="btn btn-sm btn-light"
+                                            onclick="insertHTML('<h3>')">H3</button>
+                                        <button type="button" class="btn btn-sm btn-light"
+                                            onclick="insertHTML('<p>')">P</button>
+                                        <button type="button" class="btn btn-sm btn-light"
+                                            onclick="insertHTML('<strong>')">B</button>
+                                        <button type="button" class="btn btn-sm btn-light"
+                                            onclick="insertHTML('<em>')">I</button>
+                                    </div>
+                                    <textarea class="form-control" id="artigo-conteudo" rows="15"
+                                        style="font-family: monospace;"></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Status</label>
+                                    <select class="form-control" id="artigo-status">
+                                        <option value="publicado">Publicado</option>
+                                        <option value="rascunho">Rascunho</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Hotmart Link (opcional)</label>
+                                    <input type="url" class="form-control" id="artigo-hotmart">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-check">
+                                        <input type="checkbox" class="form-check-input" id="artigo-destaque">
+                                        <label class="form-check-label">Destacar artigo</label>
+                                    </label>
+                                </div>
+                                <button type="submit" class="btn btn-primary-custom">Salvar</button>
+                                <button type="button" class="btn btn-secondary"
+                                    onclick="showSection('artigos')">Cancelar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Redes Sociais -->
+                <div id="social-media-section" class="hidden">
+                    <h2 class="mb-4">Redes Sociais</h2>
+                    <div class="card card-custom mb-4">
+                        <div class="card-body">
+                            <h4>Links das Redes Sociais</h4>
+                            <form id="social-form">
+                                <div class="mb-3">
+                                    <label><i class="fab fa-instagram me-2"></i>Instagram</label>
+                                    <input type="url" class="form-control" id="social-instagram">
+                                </div>
+                                <div class="mb-3">
+                                    <label><i class="fab fa-facebook me-2"></i>Facebook</label>
+                                    <input type="url" class="form-control" id="social-facebook">
+                                </div>
+                                <div class="mb-3">
+                                    <label><i class="fab fa-youtube me-2"></i>YouTube</label>
+                                    <input type="url" class="form-control" id="social-youtube">
+                                </div>
+                                <div class="mb-3">
+                                    <label><i class="fab fa-linkedin me-2"></i>LinkedIn</label>
+                                    <input type="url" class="form-control" id="social-linkedin">
+                                </div>
+                                <button type="submit" class="btn btn-primary-custom">Salvar Configurações</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- IA Prompts -->
+                <div id="ia-prompts-section" class="hidden">
+                    <h2 class="mb-4">Gerador de Conteúdo com IA</h2>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card card-custom">
+                                <div class="card-body">
+                                    <h4>Gerar Conteúdo para Redes Sociais</h4>
+                                    <div class="mb-3">
+                                        <label>Tema/Assunto</label>
+                                        <input type="text" class="form-control" id="ia-tema"
+                                            placeholder="Ex: Novas regras do DETRAN-SP 2026">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label>Plataforma</label>
+                                        <select class="form-control" id="ia-plataforma">
+                                            <option value="Instagram">Instagram (tom visual, engajador)</option>
+                                            <option value="Facebook">Facebook (explicativo, acessível)</option>
+                                            <option value="LinkedIn">LinkedIn (profissional, técnico)</option>
+                                            <option value="Jusbrasil">Jusbrasil (jurídico formal)</option>
+                                        </select>
+                                    </div>
+                                    <button class="btn btn-primary-custom w-100 mb-3" onclick="gerarPromptConteudo()">
+                                        <i class="fas fa-magic"></i> Gerar Prompt para IA
+                                    </button>
+                                    <div id="prompt-conteudo" class="alert alert-dark mt-3"
+                                        style="display:none; white-space: pre-wrap;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card card-custom">
+                                <div class="card-body">
+                                    <h4>Gerar Prompt para Imagem</h4>
+                                    <div class="mb-3">
+                                        <label>Tema/Assunto</label>
+                                        <input type="text" class="form-control" id="ia-imagem-tema"
+                                            placeholder="Ex: Perícia automotiva, engenheiro analisando veículo">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label>Plataforma</label>
+                                        <select class="form-control" id="ia-imagem-plataforma">
+                                            <option value="Instagram">Instagram (1:1, visual impactante)</option>
+                                            <option value="LinkedIn">LinkedIn (16:9, profissional)</option>
+                                            <option value="Facebook">Facebook (1200x630, compartilhável)</option>
+                                        </select>
+                                    </div>
+                                    <button class="btn btn-primary-custom w-100 mb-3" onclick="gerarPromptImagem()">
+                                        <i class="fas fa-image"></i> Gerar Prompt para Imagem
+                                    </button>
+                                    <div id="prompt-imagem" class="alert alert-dark mt-3"
+                                        style="display:none; white-space: pre-wrap;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        <div id="toast-message" class="toast" role="alert">
+            <div class="toast-header">
+                <strong class="me-auto">Notificação</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+    <script src="firebase-config.js"></script>
+
+    <script>
+        let tags = [];
+        let editandoId = null;
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', async () => {
+            await carregarArtigos();
+            await carregarSocialMedia();
+            document.getElementById('artigo-form').addEventListener('submit', salvarArtigo);
+            document.getElementById('social-form').addEventListener('submit', salvarSocialMedia);
+        });
+
+        // Mostrar seção
+        window.showSection = (section) => {
+            document.querySelectorAll('[id$="-section"]').forEach(el => {
+                el.classList.add('hidden');
+            });
+            document.getElementById(`${section}-section`).classList.remove('hidden');
+
+            // Atualizar sidebar active
+            document.querySelectorAll('.sidebar .nav-link').forEach(link => link.classList.remove('active'));
+            event.target.closest('.nav-link').classList.add('active');
+
+            if (section === 'artigos') carregarArtigos();
+        };
+
+        // Carregar artigos
+        async function carregarArtigos() {
+            try {
+                const artigos = await ArtigosService.listar();
+                const container = document.getElementById('artigos-list');
+
+                // Atualizar dashboard
+                document.getElementById('total-artigos').textContent = artigos.length;
+                document.getElementById('artigos-publicados').textContent = artigos.filter(a => a.status === 'publicado').length;
+                document.getElementById('artigos-rascunho').textContent = artigos.filter(a => a.status === 'rascunho').length;
+
+                if (!container) return;
+
+                if (artigos.length === 0) {
+                    container.innerHTML = '<div class="col-12 text-center text-muted">Nenhum artigo cadastrado</div>';
+                    return;
+                }
+
+                container.innerHTML = artigos.map(artigo => `
+                    <div class="col-md-6 col-lg-4 mb-3">
+                        <div class="card card-custom h-100">
+                            <div class="card-body">
+                                <span class="badge ${artigo.status === 'publicado' ? 'bg-success' : 'bg-warning'} mb-2">${artigo.status}</span>
+                                <h5 class="card-title">${artigo.titulo}</h5>
+                                <p class="card-text text-muted small">${artigo.resumo?.substring(0, 100)}...</p>
+                                <p class="text-muted small">
+                                    <i class="far fa-calendar"></i> ${artigo.dataCriacao?.toDate?.()?.toLocaleDateString() || 'Nova'}
+                                </p>
+                                <button class="btn btn-sm btn-outline-primary" onclick="editarArtigo('${artigo.id}')">
+                                    <i class="fas fa-edit"></i> Editar
+                                </button>
+                                <button class="btn btn-sm btn-outline-danger" onclick="excluirArtigo('${artigo.id}')">
+                                    <i class="fas fa-trash"></i> Excluir
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Erro ao carregar artigos:', error);
+                showToast('Erro ao carregar artigos', 'error');
+            }
+        }
+
+        // Salvar artigo
+        async function salvarArtigo(e) {
+            e.preventDefault();
+
+            const artigoData = {
+                id: document.getElementById('artigo-id').value,
+                titulo: document.getElementById('artigo-titulo').value,
+                subtitulo: document.getElementById('artigo-subtitulo').value,
+                categoria: document.getElementById('artigo-categoria').value,
+                resumo: document.getElementById('artigo-resumo').value,
+                tags: tags,
+                tempoLeitura: parseInt(document.getElementById('artigo-tempo-leitura').value),
+                status: document.getElementById('artigo-status').value,
+                destaque: document.getElementById('artigo-destaque').checked,
+                downloadmedia: {
+                    hotmartLink: document.getElementById('artigo-hotmart').value || null,
+                    freepdf: "true"
+                },
+                autor: "Eng. Paulo Eduardo Moretto Michelini",
+                dataFormatada: new Date().toLocaleDateString('pt-BR')
+            };
+
+            const conteudoHTML = document.getElementById('artigo-conteudo').value;
+            const htmlCompleto = gerarHTMLCompleto(artigoData, conteudoHTML);
+
+            try {
+                if (editandoId) {
+                    await ArtigosService.atualizar(editandoId, artigoData, htmlCompleto);
+                    showToast('Artigo atualizado com sucesso!');
+                } else {
+                    await ArtigosService.criar(artigoData, htmlCompleto);
+                    showToast('Artigo criado com sucesso!');
+                }
+
+                limparFormulario();
+                showSection('artigos');
+                await carregarArtigos();
+            } catch (error) {
+                console.error('Erro ao salvar:', error);
+                showToast('Erro ao salvar artigo', 'error');
+            }
+        }
+
+        // Editar artigo
+        window.editarArtigo = async (id) => {
+            try {
+                const artigo = await ArtigosService.buscar(id);
+                editandoId = id;
+
+                document.getElementById('form-title').textContent = 'Editar Artigo';
+                document.getElementById('artigo-id').value = artigo.id;
+                document.getElementById('artigo-id').disabled = true;
+                document.getElementById('artigo-titulo').value = artigo.titulo;
+                document.getElementById('artigo-subtitulo').value = artigo.subtitulo || '';
+                document.getElementById('artigo-categoria').value = artigo.categoria;
+                document.getElementById('artigo-resumo').value = artigo.resumo;
+                document.getElementById('artigo-tempo-leitura').value = artigo.tempoLeitura;
+                document.getElementById('artigo-status').value = artigo.status;
+                document.getElementById('artigo-destaque').checked = artigo.destaque;
+                document.getElementById('artigo-hotmart').value = artigo.downloadmedia?.hotmartLink || '';
+
+                tags = artigo.tags || [];
+                renderTags();
+
+                // Carregar conteúdo do Storage
+                const response = await fetch(artigo.arquivoURL);
+                const html = await response.text();
+                // Extrair conteúdo
+                const match = html.match(/<article[^>]*>([\s\S]*?)<\/article>/i);
+                if (match) {
+                    document.getElementById('artigo-conteudo').value = match[1];
+                }
+
+                showSection('novo-artigo');
+            } catch (error) {
+                console.error('Erro ao carregar artigo:', error);
+                showToast('Erro ao carregar artigo para edição', 'error');
+            }
+        };
+
+        // Excluir artigo
+        window.excluirArtigo = async (id) => {
+            if (confirm('Tem certeza que deseja excluir este artigo?')) {
+                try {
+                    await ArtigosService.excluir(id);
+                    showToast('Artigo excluído com sucesso!');
+                    await carregarArtigos();
+                } catch (error) {
+                    console.error('Erro ao excluir:', error);
+                    showToast('Erro ao excluir artigo', 'error');
+                }
+            }
+        };
+
+        // Tags
+        window.addTag = () => {
+            const input = document.getElementById('tag-input');
+            const tag = input.value.trim();
+            if (tag && !tags.includes(tag)) {
+                tags.push(tag);
+                renderTags();
+                input.value = '';
+            }
+        };
+
+        window.removeTag = (index) => {
+            tags.splice(index, 1);
+            renderTags();
+        };
+
+        function renderTags() {
+            const container = document.getElementById('tags-container');
+            container.innerHTML = tags.map((tag, i) => `
+                <span class="tag-input">
+                    ${tag}
+                    <span class="remove" onclick="removeTag(${i})">×</span>
+                </span>
+            `).join('');
+        }
+
+        // Gerar HTML completo
+        function gerarHTMLCompleto(artigo, conteudo) {
+            return `<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${artigo.titulo} | Michelini Perícias</title>
+    <meta name="description" content="${artigo.resumo}">
+    <meta name="keywords" content="${artigo.tags.join(', ')}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --primary-accent: #d9a13b; }
+        body { font-family: 'Inter', sans-serif; background: #f8fafc; }
+        .artigo-container { max-width: 900px; margin: 0 auto; padding: 2rem; background: white; border-radius: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .artigo-header { border-bottom: 3px solid var(--primary-accent); margin-bottom: 2rem; }
+        .artigo-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1rem; }
+        .artigo-tags span { background: #fef8ed; color: var(--primary-accent); padding: 0.25rem 0.75rem; border-radius: 50px; font-size: 0.8rem; }
+        @media (max-width: 768px) { .artigo-container { padding: 1rem; } }
+    </style>
+</head>
+<body>
+    <div class="container py-5">
+        <div class="artigo-container">
+            <div class="artigo-header">
+                <span class="badge bg-warning text-dark mb-3">${artigo.categoria}</span>
+                <h1 class="display-5 fw-bold">${artigo.titulo}</h1>
+                ${artigo.subtitulo ? `<h4 class="text-muted mb-3">${artigo.subtitulo}</h4>` : ''}
+                <div class="d-flex justify-content-between align-items-center mt-3">
+                    <div>
+                        <i class="fas fa-user-circle text-accent"></i>
+                        <span class="text-muted">${artigo.autor}</span>
+                        <span class="mx-2">•</span>
+                        <i class="far fa-calendar"></i>
+                        <span class="text-muted">${artigo.dataFormatada}</span>
+                        <span class="mx-2">•</span>
+                        <i class="far fa-clock"></i>
+                        <span class="text-muted">${artigo.tempoLeitura} min leitura</span>
+                    </div>
+                </div>
+                <div class="artigo-tags">
+                    ${artigo.tags.map(tag => `<span>#${tag}</span>`).join('')}
+                </div>
+            </div>
+            <article>
+                ${conteudo}
+            </article>
+            ${artigo.downloadmedia?.hotmartLink ? `
+            <div class="alert alert-info mt-4">
+                <i class="fab fa-hotjar"></i> 
+                <a href="${artigo.downloadmedia.hotmartLink}" target="_blank">Adquirir material completo na Hotmart</a>
+            </div>
+            ` : ''}
+        </div>
+    </div>
+    <footer class="text-center py-4 bg-dark text-white">
+        <p>© ${new Date().getFullYear()} Michelini Perícias - Eng. Paulo Michelini</p>
+    </footer>
+</body>
+</html>`;
+        }
+
+        // Carregar redes sociais
+        async function carregarSocialMedia() {
+            try {
+                const social = await SocialMediaService.get();
+                document.getElementById('social-instagram').value = social.instagram || '';
+                document.getElementById('social-facebook').value = social.facebook || '';
+                document.getElementById('social-youtube').value = social.youtube || '';
+                document.getElementById('social-linkedin').value = social.linkedin || '';
+            } catch (error) {
+                console.error('Erro ao carregar sociais:', error);
+            }
+        }
+
+        async function salvarSocialMedia(e) {
+            e.preventDefault();
+            try {
+                await SocialMediaService.update({
+                    instagram: document.getElementById('social-instagram').value,
+                    facebook: document.getElementById('social-facebook').value,
+                    youtube: document.getElementById('social-youtube').value,
+                    linkedin: document.getElementById('social-linkedin').value
+                });
+                showToast('Configurações salvas!');
+            } catch (error) {
+                console.error('Erro ao salvar:', error);
+                showToast('Erro ao salvar configurações', 'error');
+            }
+        }
+
+        // Gerar prompts IA
+        window.gerarPromptConteudo = () => {
+            const tema = document.getElementById('ia-tema').value;
+            const plataforma = document.getElementById('ia-plataforma').value;
+
+            const prompt = `Atue como especialista em marketing de conteúdo para perícia automotiva.
+
+Crie conteúdo para ${plataforma} sobre:
+
+TEMA: ${tema}
+
+REQUISITOS:
+- Tom de voz adequado para ${plataforma}
+- Use linguagem que transmita autoridade técnica
+- Inclua call to action
+- Máximo 300 caracteres para Instagram/Facebook
+- LinkedIn: texto profissional (até 1300 caracteres)
+- Jusbrasil: texto jurídico formal com referências
+
+Gere o conteúdo pronto para publicação.`;
+
+            const div = document.getElementById('prompt-conteudo');
+            div.textContent = prompt;
+            div.style.display = 'block';
+            navigator.clipboard.writeText(prompt);
+            showToast('Prompt copiado para área de transferência!');
+        };
+
+        window.gerarPromptImagem = () => {
+            const tema = document.getElementById('ia-imagem-tema').value;
+            const plataforma = document.getElementById('ia-imagem-plataforma').value;
+
+            const dimensoes = {
+                'Instagram': '1080x1080 (1:1)',
+                'LinkedIn': '1200x627 (1.91:1)',
+                'Facebook': '1200x630 (1.91:1)'
+            };
+
+            const prompt = `Crie um prompt detalhado para gerar imagem em IA.
+
+TEMA: ${tema}
+PLATAFORMA: ${plataforma}
+DIMENSÃO: ${dimensoes[plataforma]}
+
+ESTILO DA IMAGEM:
+- Profissional de engenharia/perícia automotiva
+- Ambiente técnico (oficina, laboratório, tribunal)
+- Cores: azul escuro (#0b2b40) e dourado (#d9a13b)
+- Iluminação profissional
+- Alta resolução
+
+Prompt final para a IA de geração de imagem:`;
+
+            const div = document.getElementById('prompt-imagem');
+            div.textContent = prompt;
+            div.style.display = 'block';
+            navigator.clipboard.writeText(prompt);
+            showToast('Prompt copiado para área de transferência!');
+        };
+
+        // Utilitários
+        window.insertHTML = (tag) => {
+            const textarea = document.getElementById('artigo-conteudo');
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            const text = textarea.value;
+            const before = text.substring(0, start);
+            const selected = text.substring(start, end);
+            const after = text.substring(end);
+            const closingTag = tag.replace('<', '</');
+            textarea.value = before + tag + selected + closingTag + after;
+            textarea.focus();
+        };
+
+        function limparFormulario() {
+            editandoId = null;
+            document.getElementById('form-title').textContent = 'Novo Artigo';
+            document.getElementById('artigo-id').disabled = false;
+            document.getElementById('artigo-form').reset();
+            tags = [];
+            renderTags();
+            document.getElementById('artigo-conteudo').value = '';
+        }
+
+        function showToast(message, type = 'success') {
+            const toastEl = document.getElementById('toast-message');
+            const toastBody = toastEl.querySelector('.toast-body');
+            toastBody.textContent = message;
+            const toast = new bootstrap.Toast(toastEl, { delay: 3000 });
+            toast.show();
+        }
+    </script>
+
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
+</body>
+
+</html>
