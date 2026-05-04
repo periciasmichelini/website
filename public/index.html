@@ -1,89 +1,919 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Welcome to Firebase Hosting</title>
+<html lang="pt-br">
 
-    <!-- update the version number as needed -->
-    <script defer src="/__/firebase/12.12.1/firebase-app-compat.js"></script>
-    <!-- include only the Firebase features as you need -->
-    <script defer src="/__/firebase/12.12.1/firebase-auth-compat.js"></script>
-    <script defer src="/__/firebase/12.12.1/firebase-database-compat.js"></script>
-    <script defer src="/__/firebase/12.12.1/firebase-firestore-compat.js"></script>
-    <script defer src="/__/firebase/12.12.1/firebase-functions-compat.js"></script>
-    <script defer src="/__/firebase/12.12.1/firebase-messaging-compat.js"></script>
-    <script defer src="/__/firebase/12.12.1/firebase-storage-compat.js"></script>
-    <script defer src="/__/firebase/12.12.1/firebase-analytics-compat.js"></script>
-    <script defer src="/__/firebase/12.12.1/firebase-remote-config-compat.js"></script>
-    <script defer src="/__/firebase/12.12.1/firebase-performance-compat.js"></script>
-    <!-- 
-      initialize the SDK after all desired features are loaded, set useEmulator to false
-      to avoid connecting the SDK to running emulators.
-    -->
-    <script defer src="/__/firebase/init.js?useEmulator=true"></script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MICHELINI PERÍCIAS | Engenharia Mecânica • Perícia Automotiva</title>
+    <meta name="description"
+        content="Perícia automotiva judicial e extrajudicial - Engenheiro Mecânico Paulo Michelini | Laudos técnicos, assistência técnica e vistorias com validade jurídica em SP/MG.">
+    <meta name="keywords"
+        content="perícia automotiva, engenheiro mecânico, laudo técnico, assistência técnica judicial, vistoria veicular, Michelini Perícias, DETRAN-SP, perícia judicial">
+    <meta name="author" content="Paulo Eduardo Moretto Michelini">
+    <meta name="robots" content="index, follow">
+    <meta name="google-site-verification" content="">
 
-    <style media="screen">
-      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
-      #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
-      #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
-      #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
-      #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
-      #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
-      #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
-      #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
-      @media (max-width: 600px) {
-        body, #message { margin-top: 0; background: white; box-shadow: none; }
-        body { border-top: 16px solid #ffa100; }
-      }
-    </style>
-  </head>
-  <body>
-    <div id="message">
-      <h2>Welcome</h2>
-      <h1>Firebase Hosting Setup Complete</h1>
-      <p>You're seeing this because you've successfully setup Firebase Hosting. Now it's time to go build something extraordinary!</p>
-      <a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a>
-    </div>
-    <p id="load">Firebase SDK Loading&hellip;</p>
+    <!-- Favicon -->
+    <link
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230b2b40'/%3E%3Ctext x='50' y='67' font-size='50' text-anchor='middle' fill='%23d9a13b' font-weight='bold'%3EMP%3C/text%3E%3C/svg%3E"
+        rel="icon">
 
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const loadEl = document.querySelector('#load');
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-        // // The Firebase SDK is initialized and available here!
-        //
-        // firebase.auth().onAuthStateChanged(user => { });
-        // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
-        // firebase.firestore().doc('/foo/bar').get().then(() => { });
-        // firebase.functions().httpsCallable('yourFunction')().then(() => { });
-        // firebase.messaging().requestPermission().then(() => { });
-        // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
-        // firebase.analytics(); // call to activate
-        // firebase.analytics().logEvent('tutorial_completed');
-        // firebase.performance(); // call to activate
-        //
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
 
-        try {
-          let app = firebase.app();
-          let features = [
-            'auth', 
-            'database', 
-            'firestore',
-            'functions',
-            'messaging', 
-            'storage', 
-            'analytics', 
-            'remoteConfig',
-            'performance',
-          ].filter(feature => typeof app[feature] === 'function');
-          loadEl.textContent = `Firebase SDK loaded with ${features.join(', ')}`;
-        } catch (e) {
-          console.error(e);
-          loadEl.textContent = 'Error loading the Firebase SDK, check the console.';
+    <!-- Bootstrap + Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        :root {
+            --primary-dark: #0b2b40;
+            --primary-accent: #d9a13b;
+            --primary-accent-light: #f3cd81;
+            --gray-bg: #f8fafc;
+            --text-dark: #1e2a3a;
+            --text-muted: #4a627a;
+            --card-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.08);
+            --transition-default: all 0.3s ease;
         }
-      });
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-dark);
+            background: white;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        .navbar-brand,
+        .btn,
+        .nav-link {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        /* Navegação */
+        .navbar {
+            transition: var(--transition-default);
+        }
+
+        .navbar-brand h1 {
+            font-size: 1.3rem;
+            font-weight: 800;
+            letter-spacing: -0.3px;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            transition: var(--transition-default);
+        }
+
+        .nav-link:hover {
+            color: var(--primary-accent) !important;
+        }
+
+        /* Botões */
+        .btn-primary-custom {
+            background-color: var(--primary-accent);
+            border: none;
+            color: #0b2b40;
+            font-weight: 700;
+            transition: var(--transition-default);
+        }
+
+        .btn-primary-custom:hover {
+            background-color: #c28a2c;
+            transform: translateY(-2px);
+            color: #ffffff;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-outline-custom {
+            border: 2px solid var(--primary-accent);
+            color: var(--primary-accent);
+            background: transparent;
+            border-radius: 60px;
+            padding: 10px 28px;
+            font-weight: 600;
+            transition: var(--transition-default);
+        }
+
+        .btn-outline-custom:hover {
+            background: var(--primary-accent);
+            color: #0b2b40;
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, #0a2633 0%, #031a24 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" opacity="0.05"><path fill="%23d9a13b" d="M100,0 L120,80 L200,100 L120,120 L100,200 L80,120 L0,100 L80,80 Z"/></svg>') repeat;
+            pointer-events: none;
+        }
+
+        .hero-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            transition: var(--transition-default);
+        }
+
+        .hero-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Service Items */
+        .service-item {
+            transition: var(--transition-default);
+            background: white;
+            border-radius: 28px;
+            padding: 2rem 1.5rem;
+            box-shadow: var(--card-shadow);
+            height: 100%;
+            border: 1px solid rgba(0, 0, 0, 0.03);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-item::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--primary-accent);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .service-item:hover::after {
+            transform: scaleX(1);
+        }
+
+        .service-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 24px 40px -18px rgba(0, 0, 0, 0.2);
+            border-color: var(--primary-accent-light);
+        }
+
+        .service-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--primary-dark);
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            margin-left: auto;
+            margin-right: auto;
+            transition: var(--transition-default);
+        }
+
+        .service-item:hover .service-icon {
+            background: var(--primary-accent);
+        }
+
+        .service-item:hover .service-icon i {
+            color: var(--primary-dark);
+        }
+
+        .service-icon i {
+            font-size: 2.5rem;
+            color: var(--primary-accent);
+            transition: var(--transition-default);
+        }
+
+        /* Diferenciais */
+        .diferencial-card {
+            transition: var(--transition-default);
+            cursor: default;
+        }
+
+        .diferencial-card:hover {
+            transform: translateX(5px);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #0a3b4f 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Footer */
+        .footer-link {
+            color: #cddcec;
+            text-decoration: none;
+            transition: var(--transition-default);
+        }
+
+        .footer-link:hover {
+            color: var(--primary-accent);
+            padding-left: 5px;
+        }
+
+        /* Back to Top */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--primary-dark);
+            color: white;
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 99;
+            transition: var(--transition-default);
+            text-decoration: none;
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background: var(--primary-accent);
+            color: #0b2b40;
+            transform: translateY(-3px);
+        }
+
+        /* Utilidades */
+        .text-accent {
+            color: var(--primary-accent);
+        }
+
+        .bg-accent-soft {
+            background-color: #fef8ed;
+        }
+
+        .border-accent {
+            border-color: var(--primary-accent) !important;
+        }
+
+        .cursor-pointer {
+            cursor: pointer;
+        }
+
+        /* Animações */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-up {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .pulse-hover:hover {
+            animation: pulse 0.5s ease;
+        }
+
+        /* Responsivo */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.2rem;
+            }
+
+            .service-item {
+                padding: 1.5rem;
+            }
+
+            .back-to-top {
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .display-3 {
+                font-size: 2rem;
+            }
+
+            .display-6 {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Smooth scroll para navegação */
+        html {
+            scroll-padding-top: 80px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER / NAVBAR -->
+    <nav class="navbar navbar-expand-lg bg-white shadow-sm fixed-top py-2">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="/">
+                <img src="img/logomin.jpg" alt="Logo Michelini Perícias" width="35" class="me-2 rounded">
+                <div>
+                    <span class="fw-bold text-uppercase" style="font-size:1.1rem; letter-spacing:-0.3px;">Michelini
+                        Perícias</span>
+                    <small class="d-block text-muted" style="font-size:0.65rem; line-height:1.2;">Engenharia Mecânica •
+                        Perícia Automotiva</small>
+                </div>
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav ms-auto py-3 py-lg-0 gap-lg-3">
+                    <li class="nav-item"><a href="/" class="nav-link active fw-semibold">Home</a></li>
+                    <li class="nav-item"><a href="#sobre" class="nav-link">Sobre</a></li>
+                    <li class="nav-item"><a href="#servicos" class="nav-link">Serviços</a></li>
+                    <li class="nav-item"><a href="#atuacao" class="nav-link">Atuação</a></li>
+                    <li class="nav-item"><a href="/biblioteca/" class="nav-link">Biblioteca</a></li>
+                    <li class="nav-item"><a href="#contato" class="nav-link">Contato</a></li>
+                </ul>
+                <a href="https://wa.me/5519996424500" target="_blank"
+                    class="btn btn-primary-custom rounded-pill px-4 py-2 ms-lg-3" style="background-color: #25d366;">
+                    <i class=" fab fa-whatsapp me-2"></i>WhatsApp
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+
+        <!-- HERO SECTION -->
+        <section class="hero-section min-vh-100 d-flex align-items-center pt-5 mt-5">
+            <div class="container py-5">
+                <div class="row align-items-center g-5">
+                    <div class="col-lg-7 text-white animate-fade-up">
+                        <span class="badge bg-accent-soft text-accent fw-semibold px-4 py-2 rounded-pill mb-4">
+                            <i class="fas fa-gavel me-2"></i> Perícia & Assistência Técnica
+                        </span>
+                        <h1 class="display-3 fw-bold mb-4">Engenharia Mecânica <br><span class="text-accent">com rigor
+                                técnico e judiciário</span></h1>
+                        <p class="fs-5 mb-4 opacity-75">Laudos imparciais, vistorias veiculares e assistência técnica
+                            judicial/extrajudicial — atuação em SP e MG.</p>
+                        <div class="d-flex flex-wrap gap-3">
+                            <a href="#servicos"
+                                class="btn btn-primary-custom rounded-pill px-5 py-3 fw-semibold">Conhecer serviços <i
+                                    class="fas fa-arrow-right ms-2"></i></a>
+                            <a href="#contato" class="btn btn-outline-custom rounded-pill px-5 py-3">Solicitar
+                                orçamento</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-5">
+                        <div class="bg-white rounded-4 p-4 shadow-lg">
+                            <div class="text-center mb-4">
+                                <i class="fas fa-user-graduate fa-3x text-accent"></i>
+                                <h3 class="fw-bold mt-2">Eng. Paulo Michelini</h3>
+                                <p class="text-muted">CREA-SP 506157626-6 | CREA-MG</p>
+                            </div>
+                            <div class="border-top pt-3">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span><i class="fas fa-check-circle text-accent me-2"></i>15+ anos de
+                                        experiência</span>
+                                    <span><i class="fas fa-check-circle text-accent me-2"></i>500+ laudos
+                                        realizados</span>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <span><i class="fas fa-check-circle text-accent me-2"></i>Atuação em SP e MG</span>
+                                    <span><i class="fas fa-check-circle text-accent me-2"></i>Cadastro nos
+                                        Tribunais</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DIFERENCIAIS -->
+        <section class="container py-5 my-4">
+            <div class="row g-4 justify-content-center">
+                <div class="col-md-4">
+                    <div class="diferencial-card d-flex align-items-start gap-3 p-3 rounded-4">
+                        <div class="bg-accent-soft p-3 rounded-circle">
+                            <i class="fas fa-microscope fa-2x text-accent"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold">Laudos com Validade Jurídica</h5>
+                            <p class="text-muted small">Fundamentação técnica, normas ABNT, Código de Trânsito
+                                Brasileiro e imparcialidade reconhecida.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="diferencial-card d-flex align-items-start gap-3 p-3 rounded-4">
+                        <div class="bg-accent-soft p-3 rounded-circle">
+                            <i class="fas fa-user-check fa-2x text-accent"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold">Especialista em Engenharia Mecânica</h5>
+                            <p class="text-muted small">Formação sólida e registro ativo nos CREAs de São Paulo e Minas
+                                Gerais.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="diferencial-card d-flex align-items-start gap-3 p-3 rounded-4">
+                        <div class="bg-accent-soft p-3 rounded-circle">
+                            <i class="fas fa-chart-line fa-2x text-accent"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold">Assistência Estratégica</h5>
+                            <p class="text-muted small">Análise crítica de laudos, elaboração de quesitos e
+                                acompanhamento processual.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SOBRE -->
+        <section id="sobre" class="container py-5">
+            <div class="row g-5 align-items-center">
+                <div class="col-lg-6">
+                    <div class="position-relative rounded-4 overflow-hidden shadow-lg">
+                        <img src="https://placehold.co/600x500/1e3a4a/ffffff?text=Perito+Engenheiro+Paulo+Michelini"
+                            class="img-fluid w-100" alt="Engenheiro Paulo Michelini - Perito Judicial"
+                            style="object-fit: cover; min-height: 400px;">
+                        <div class="position-absolute bottom-0 start-0 w-100 bg-dark bg-opacity-75 text-white p-3">
+                            <i class="fas fa-id-card me-2"></i> Eng. Paulo Eduardo Moretto Michelini | CREA-SP
+                            506157626-6
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <h5 class="text-accent fw-bold border-start border-4 border-accent ps-3">Quem sou</h5>
+                    <h2 class="fw-bold mt-3 mb-4">Engenheiro Mecânico <br>especializado em Perícia Automotiva</h2>
+                    <p class="lead">Atuo com perícia judicial e assistência técnica em demandas automotivas, oferecendo
+                        suporte técnico qualificado para advogados, empresas e cidadãos.</p>
+                    <p>Com rigor metodológico e mais de 15 anos de experiência em engenharia mecânica, realizo
+                        vistorias, análises de falhas, vícios ocultos, acidentes de trânsito e avaliações de veículos.
+                        Atuo como perito do juízo ou assistente técnico de parte, sempre com base em critérios objetivos
+                        e linguagem acessível ao meio jurídico.</p>
+
+                    <div class="row mt-4 g-3">
+                        <div class="col-sm-6">
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="fas fa-check-circle text-accent fs-5"></i>
+                                <span>Laudos imparciais e conclusivos</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="fas fa-check-circle text-accent fs-5"></i>
+                                <span>Vistorias técnicas detalhadas</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="fas fa-check-circle text-accent fs-5"></i>
+                                <span>Análise de falhas / vícios ocultos</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="fas fa-check-circle text-accent fs-5"></i>
+                                <span>Atuação em São Paulo e Minas Gerais</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 pt-2">
+                        <a href="#contato" class="btn btn-primary-custom rounded-pill px-4 py-2">
+                            Solicitar análise <i class="fas fa-arrow-right ms-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SERVIÇOS -->
+        <section id="servicos" class="container py-5 bg-accent-soft rounded-4 my-4">
+            <div class="text-center mb-5">
+                <h5 class="text-accent fw-bold"><i class="fas fa-cogs me-2"></i> Especialidades</h5>
+                <h2 class="display-6 fw-bold">Atuação especializada em <span class="text-accent">Engenharia
+                        Judicial</span></h2>
+                <p class="lead text-muted mx-auto" style="max-width: 700px;">Soluções periciais para o Poder Judiciário,
+                    escritórios de advocacia e proprietários de veículos.</p>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-item text-center">
+                        <div class="service-icon mx-auto"><i class="fas fa-clipboard-list"></i></div>
+                        <h4 class="fw-bold">Perícia Judicial Automotiva</h4>
+                        <p class="text-muted">Nomeação pelo juízo: laudos imparciais com análise de avarias, mecânica e
+                            vícios ocultos.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-item text-center">
+                        <div class="service-icon mx-auto"><i class="fas fa-user-astronaut"></i></div>
+                        <h4 class="fw-bold">Assistente Técnico</h4>
+                        <p class="text-muted">Atuação em nome da parte: análise crítica do laudo, elaboração de quesitos
+                            e parecer técnico.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-item text-center">
+                        <div class="service-icon mx-auto"><i class="fas fa-car-crash"></i></div>
+                        <h4 class="fw-bold">Vistoria & Avaliação Veicular</h4>
+                        <p class="text-muted">Pré-compra, sinistro, danos estruturais e cálculo de desvalorização
+                            técnica.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-item text-center">
+                        <div class="service-icon mx-auto"><i class="fas fa-balance-scale"></i></div>
+                        <h4 class="fw-bold">Parecer Técnico Extrajudicial</h4>
+                        <p class="text-muted">Opinião técnica independente para acordos, mediações e arbitragens.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-item text-center">
+                        <div class="service-icon mx-auto"><i class="fas fa-hard-hat"></i></div>
+                        <h4 class="fw-bold">Análise de Vícios Ocultos</h4>
+                        <p class="text-muted">Investigação de falhas de fabricação ou reparo com metodologia de
+                            engenharia.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="service-item text-center">
+                        <div class="service-icon mx-auto"><i class="fas fa-gavel"></i></div>
+                        <h4 class="fw-bold">Acompanhamento Processual</h4>
+                        <p class="text-muted">Suporte a advogados: quesitos, assistência em audiências e sustentação
+                            técnica.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ATUAÇÃO PROFISSIONAL -->
+        <section id="atuacao" class="container py-5">
+            <div class="row g-5">
+                <div class="col-lg-7">
+                    <h5 class="text-accent fw-bold border-start border-4 border-accent ps-3">Atuação integrada</h5>
+                    <h2 class="fw-bold mt-3 mb-4">Perito judicial | Assistente técnico | Consultor</h2>
+                    <p>Desenvolvo atividades de forma ética e transparente, sempre com fundamentação técnica robusta.
+                        Como perito judicial, atendo aos requisitos dos tribunais, com cadastro ativo nos portais de
+                        auxiliares da justiça, CREA ativo e certidões negativas. Como assistente técnico, ofereço total
+                        suporte ao patrono, desde a análise preliminar até a produção de parecer final.</p>
+
+                    <div class="row mt-4 g-3">
+                        <div class="col-md-6">
+                            <div class="d-flex gap-2">
+                                <i class="fas fa-check-circle text-accent fs-5 mt-1"></i>
+                                <span>Elaboração de laudos periciais com resposta a quesitos</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex gap-2">
+                                <i class="fas fa-check-circle text-accent fs-5 mt-1"></i>
+                                <span>Participação em audiências de instrução</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex gap-2">
+                                <i class="fas fa-check-circle text-accent fs-5 mt-1"></i>
+                                <span>Análise crítica de laudos adversários</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex gap-2">
+                                <i class="fas fa-check-circle text-accent fs-5 mt-1"></i>
+                                <span>Atuação em demandas cíveis, consumeristas e securitárias</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="#contato" class="btn btn-primary-custom rounded-pill px-5 py-3 mt-4">
+                        Solicitar assistência <i class="fas fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+                <div class="col-lg-5">
+                    <div class="bg-white p-4 rounded-4 shadow-sm border">
+                        <div class="d-flex align-items-center gap-3 mb-4">
+                            <i class="fas fa-id-card fa-2x text-accent"></i>
+                            <h4 class="mb-0">Regularidade profissional</h4>
+                        </div>
+                        <div class="mb-3">
+                            <strong class="d-block">Eng. Mecânico Paulo Michelini</strong>
+                            <p class="mb-1">CREA-SP: 506157626-6</p>
+                            <p class="mb-1">CREA-MG: (ativo)</p>
+                        </div>
+                        <hr>
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="fas fa-map-marker-alt text-accent"></i>
+                            <span><strong>Base em Limeira/SP</strong> – atuação regional e interestadual</span>
+                        </div>
+                        <div class="mt-3 d-flex gap-2">
+                            <i class="fas fa-check-circle text-accent"></i>
+                            <span>Cadastro ativo nos portais da justiça</span>
+                        </div>
+                        <div class="mt-2 d-flex gap-2">
+                            <i class="fas fa-check-circle text-accent"></i>
+                            <span>Certidões negativas, capacidade técnica plena</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- BIBLIOTECA TÉCNICA (CTA) -->
+        <section class="container py-4">
+            <div class="bg-accent-soft rounded-4 p-5 text-center">
+                <i class="fas fa-book-open fa-3x text-accent mb-3"></i>
+                <h2 class="fw-bold">Biblioteca Técnica</h2>
+                <p class="lead mx-auto" style="max-width: 700px;">Acesse artigos, guias e análises sobre perícia
+                    automotiva, novas legislações e jurisprudência.</p>
+                <div class="row justify-content-center mt-4">
+                    <div class="col-auto">
+                        <a href="/biblioteca/" class="btn btn-primary-custom rounded-pill px-5 py-3">
+                            <i class="fas fa-search me-2"></i> Explorar conteúdo técnico
+                        </a>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <span class="badge bg-light text-dark px-3 py-2 rounded-pill me-2">📘 Guia DETRAN-SP 2026</span>
+                    <span class="badge bg-light text-dark px-3 py-2 rounded-pill me-2">⚖️ Jurisprudência</span>
+                    <span class="badge bg-light text-dark px-3 py-2 rounded-pill">🔧 Análises técnicas</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA AGENDAMENTO -->
+        <div class="container-fluid cta-section my-5 py-5 text-white">
+            <div class="container text-center py-4">
+                <i class="fas fa-calendar-check fa-3x text-accent mb-3"></i>
+                <h2 class="fw-bold">Solicite análise técnica ou orçamento</h2>
+                <p class="lead mx-auto mt-3" style="max-width: 600px;">Engenheiro mecânico disponível para esclarecer
+                    dúvidas e avaliar a viabilidade técnica do seu caso.</p>
+                <div class="d-flex flex-wrap justify-content-center gap-3 mt-4">
+                    <a href="https://wa.me/5519996424500" target="_blank"
+                        class="btn btn-light rounded-pill px-5 py-3 fw-bold">
+                        <i class="fab fa-whatsapp me-2"></i> WhatsApp (19) 99642-4500
+                    </a>
+                    <a href="mailto:contato@michelinipericias.com.br"
+                        class="btn btn-outline-light rounded-pill px-5 py-3">
+                        <i class="fas fa-envelope me-2"></i> contato@michelinipericias.com.br
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTATO E LOCALIZAÇÃO -->
+        <section id="contato" class="container py-5 mb-4">
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="bg-white p-4 rounded-4 shadow-sm h-100">
+                        <h4 class="fw-bold"><i class="fas fa-map-pin text-accent me-2"></i> Escritório & Endereço</h4>
+                        <p class="mt-3 mb-2">Rua Almirante Barroso, 516, Vila Cidade Jardim</p>
+                        <p class="mb-3">Limeira - SP, CEP: 13480-270</p>
+                        <div class="ratio ratio-16x9 mt-3 rounded overflow-hidden shadow-sm">
+                            <iframe
+                                src="https://maps.google.com/maps?q=Rua%20Almirante%20Barroso%2C%20516%2C%20Limeira%20SP&z=15&output=embed"
+                                style="border:0;" allowfullscreen loading="lazy"
+                                title="Mapa do escritório Michelini Perícias"></iframe>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="bg-white p-4 rounded-4 shadow-sm h-100">
+                        <h4 class="fw-bold"><i class="fas fa-envelope text-accent me-2"></i> Contato Direto</h4>
+                        <ul class="list-unstyled mt-3">
+                            <li class="mb-3 pb-2 border-bottom">
+                                <i class="fas fa-phone-alt text-accent me-2"></i>
+                                <strong>Telefone/WhatsApp:</strong>
+                                <!-- <a href="tel:+5519996424500" class="text-decoration-none">(19) 99642-4500</a> -->
+                                <a href="https://wa.me/5519996424500" target="_blank"
+                                    class="btn btn-primary-custom rounded-pill px-4 py-2 ms-lg-3"
+                                    style="background-color: #25d366;">
+                                    <i class=" fab fa-whatsapp me-2"></i>(19) 99642-4500
+                                </a>
+                            </li>
+                            <li class="mb-3 pb-2 border-bottom">
+                                <i class="fas fa-envelope text-accent me-2"></i>
+                                <strong>E-mail:</strong>
+                                <span id="emailSpan">contato@michelinipericias.com.br</span>
+                                <button class="copy-email-btn ms-2 border-0 bg-light p-1 px-3 rounded-pill"
+                                    id="copyEmailBtn">
+                                    <i class="far fa-copy"></i> Copiar
+                                </button>
+                            </li>
+                            <li class="mb-3 pb-2 border-bottom">
+                                <i class="fas fa-id-card text-accent me-2"></i>
+                                <strong>Responsável técnico:</strong> Eng. Paulo Michelini – CREA-SP 506157626-6
+                            </li>
+                            <li class="mb-3 pb-2 border-bottom">
+                                <i class="fas fa-book text-accent me-2"></i>
+                                <strong>Confira nossa Biblioteca:</strong> Publicações
+                                <a href="/biblioteca/" class="btn btn-outline-dark rounded-pill">
+                                    <i class="fas fa-book"></i> Biblioteca
+                                </a>
+                            </li>
+                            <li class="mb-3 pb-2">
+                                <h4 class="fw-bold">
+                                    <i class="fas fa-users text-accent me-2"></i> Conecte-se com nossas Redes Sociais
+                                </h4>
+                            </li>
+                        </ul>
+                        <div class="mt-3 d-flex gap-3">
+                            <a href="https://www.facebook.com/michelinipericias" target="_blank"
+                                class="btn btn-outline-dark rounded-pill">
+                                <i class="fab fa-facebook"></i> Facebook
+                            </a>
+                            <a href="https://instagram.com/michelinipericias" target="_blank"
+                                class="btn btn-outline-dark rounded-pill">
+                                <i class="fab fa-instagram"></i> Instagram
+                            </a>
+                            <a href="https://www.linkedin.com/in/michelinipericias/" target="_blank"
+                                class="btn btn-outline-dark rounded-pill">
+                                <i class="fab fa-linkedin"></i> LinkedIn
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-tema-escuro2 pt-5 pb-3 mt-5" style="background-color: #0a1c2a;">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23d9a13b'/%3E%3Ctext x='50' y='67' font-size='50' text-anchor='middle' fill='%230b2b40' font-weight='bold'%3EMP%3C/text%3E%3C/svg%3E"
+                            width="40" class="rounded">
+                        <h5 class="text-white mb-0">MICHELINI PERÍCIAS</h5>
+                    </div>
+                    <p class="text-white-50 small">Perícia judicial e assistência técnica em engenharia mecânica, com
+                        foco em automóveis e demandas técnicas forenses.</p>
+                    <p class="text-white-50 small mb-0">
+                        <i class="fas fa-map-marker-alt text-accent me-2"></i> Rua Almirante Barroso, 516, Vila Cidade
+                        Jardim, Limeira/SP
+                    </p>
+                </div>
+                <div class="col-md-4">
+                    <h5 class="text-white mb-3">Links rápidos</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#sobre" class="footer-link">Sobre o perito</a></li>
+                        <li class="mb-2"><a href="#servicos" class="footer-link">Serviços técnicos</a></li>
+                        <li class="mb-2"><a href="#atuacao" class="footer-link">Atuação profissional</a></li>
+                        <li class="mb-2"><a href="/biblioteca/" class="footer-link">Biblioteca técnica</a></li>
+                        <li class="mb-2"><a href="#contato" class="footer-link">Contato e localização</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5 class="text-white mb-3">Contato</h5>
+                    <p class="text-white-50 small mb-2">
+                        <i class="fab fa-whatsapp text-accent me-2"></i> (19) 99642-4500
+                    </p>
+                    <p class="text-white-50 small mb-2">
+                        <i class="fas fa-envelope text-accent me-2"></i> contato@michelinipericias.com.br
+                    </p>
+                    <p class="text-white-50 small">
+                        <i class="fas fa-id-card text-accent me-2"></i> CREA-SP 506157626-6
+                    </p>
+                    <div class="d-flex gap-3 mt-3">
+                        <a href="https://instagram.com/michelinipericias" class="text-white-50" target="_blank"><i
+                                class="fab fa-instagram fa-lg"></i></a>
+                        <a href="https://linkedin.com/in/paulo-michelini-pericias" class="text-white-50"
+                            target="_blank"><i class="fab fa-linkedin fa-lg"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center pt-4 border-top border-secondary mt-4">
+                <p class="text-white-50 small mb-0">&copy; 2025 MICHELINI PERÍCIAS - Todos os direitos reservados. Eng.
+                    Paulo Michelini</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- BACK TO TOP -->
+    <a href="#" class="back-to-top" id="backToTop">
+        <i class="bi bi-arrow-up"></i>
+    </a>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Back to top button
+        const backToTop = document.getElementById('backToTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTop.classList.add('show');
+            } else {
+                backToTop.classList.remove('show');
+            }
+        });
+
+        backToTop.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Copy email
+        const copyBtn = document.getElementById('copyEmailBtn');
+        const emailSpan = document.getElementById('emailSpan');
+        if (copyBtn && emailSpan) {
+            copyBtn.addEventListener('click', async () => {
+                try {
+                    await navigator.clipboard.writeText(emailSpan.textContent);
+                    const originalHtml = copyBtn.innerHTML;
+                    copyBtn.innerHTML = '<i class="fas fa-check"></i> Copiado!';
+                    setTimeout(() => {
+                        copyBtn.innerHTML = originalHtml;
+                    }, 2000);
+                } catch (err) {
+                    alert('Não foi possível copiar o e-mail.');
+                }
+            });
+        }
+
+        // Smooth scroll para todos os âncoras
+        document.querySelectorAll('a[href^="#"]:not([href="#"])').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                const target = document.querySelector(targetId);
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Navbar active on scroll
+        const sections = document.querySelectorAll('section[id]');
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                if (scrollY >= sectionTop) {
+                    current = section.getAttribute('id');
+                }
+            });
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
     </script>
-  </body>
+</body>
+
 </html>
