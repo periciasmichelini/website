@@ -1,0 +1,25 @@
+michelinipericias.com.br/
+│
+├── 📄 Página Principal
+│   └── index.html (Home + Serviços + Contato) ( html + js + css )
+│
+└──  📁 Biblioteca  ( html + js + css  SEPARADOS)
+    ├── biblioteca.html (Lista de todos os artigos)
+    ├── artigo.html (Página única que exibe artigo dinâmico via ?id=)
+    ├── admin.html (Dashboard único com todas as funções)
+    │   ├── Dashboard (estatísticas)
+    │   ├── Listar Artigos (CRUD)
+    │   ├── Artigo (Novo + Editar integrado)
+    │   └── Gerador Social (IA p/ Instagram, Facebook, LinkedIn, Jusbrasil, Imagem)
+    │
+    └── 📁 Assets
+        ├── css/
+        │    ├── biblioteca.css (site público)
+        │    ├── artigo.css (painel admin)
+        │    └── admin.css (painel admin)    
+        └── js/
+            ├── firebase-config.js (configuração Firebase)
+            ├── biblioteca.js (lógica da lista de artigos)
+            ├── admin.js 
+            ├── artigos.js (CRUD Firebase)
+            └── social.js (gerador de prompts IA)

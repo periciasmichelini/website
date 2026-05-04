@@ -1,0 +1,356 @@
+/* artigo.css - Estilos da página de exibição do artigo */
+:root {
+    --primary-dark: #0b2b40;
+    --primary-accent: #d9a13b;
+    --primary-accent-light: #f3cd81;
+    --gray-bg: #f8fafc;
+    --text-dark: #1e2a3a;
+    --text-muted: #4a627a;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    color: var(--text-dark);
+    background: var(--gray-bg);
+    scroll-behavior: smooth;
+}
+
+h1,
+h2,
+h3,
+h4,
+.navbar-brand,
+.btn,
+.nav-link {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+/* Navbar */
+.navbar {
+    transition: all 0.3s ease;
+    background: white !important;
+}
+
+.nav-link {
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+    color: var(--primary-accent) !important;
+}
+
+.btn-primary-custom {
+    background-color: var(--primary-accent);
+    border: none;
+    color: #0b2b40;
+    font-weight: 700;
+    transition: all 0.3s ease;
+}
+
+.btn-primary-custom:hover {
+    background-color: #c28a2c;
+    transform: translateY(-2px);
+    color: #ffffff;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Container do artigo */
+.loading-container {
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.loading-spinner {
+    width: 4rem;
+    height: 4rem;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid var(--primary-accent);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.artigo-container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 24px;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.artigo-header {
+    background: linear-gradient(135deg, #0b2b40 0%, #1a4a5f 100%);
+    padding: 2.5rem;
+    color: white;
+}
+
+.artigo-body {
+    padding: 2.5rem;
+}
+
+.artigo-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin: 1.5rem 0;
+}
+
+.artigo-tag {
+    background: #fef8ed;
+    color: #d9a13b;
+    padding: 0.25rem 0.75rem;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.badge-categoria {
+    background: #d9a13b;
+    color: #0b2b40;
+    padding: 0.3rem 1rem;
+    border-radius: 50px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.autor-card {
+    background: #f8fafc;
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+    border-left: 4px solid #d9a13b;
+}
+
+.share-buttons {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+    margin: 2rem 0;
+    padding: 1.5rem 0;
+    border-top: 1px solid #e9ecef;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.share-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.share-btn-whatsapp {
+    background: #25d366;
+    color: white;
+}
+
+.share-btn-linkedin {
+    background: #0077b5;
+    color: white;
+}
+
+.share-btn-email {
+    background: #6c757d;
+    color: white;
+}
+
+.share-btn:hover {
+    transform: translateY(-2px);
+    filter: brightness(0.95);
+    color: white;
+}
+
+.btn-download {
+    background: #28a745;
+    color: white;
+    padding: 12px 28px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.2s;
+}
+
+.btn-download:hover {
+    background: #218838;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.btn-hotmart {
+    background: #dc3545;
+    color: white;
+    padding: 12px 28px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.2s;
+}
+
+.btn-hotmart:hover {
+    background: #c82333;
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* Estilos do conteúdo HTML do artigo */
+.artigo-conteudo {
+    line-height: 1.8;
+}
+
+.artigo-conteudo h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: #0b2b40;
+}
+
+.artigo-conteudo h3 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-top: 1.5rem;
+    margin-bottom: 0.8rem;
+    color: #1a4a5f;
+}
+
+.artigo-conteudo p {
+    margin-bottom: 1.2rem;
+    color: #1e2a3a;
+}
+
+.artigo-conteudo ul,
+.artigo-conteudo ol {
+    margin-bottom: 1.2rem;
+    padding-left: 1.5rem;
+}
+
+.artigo-conteudo li {
+    margin-bottom: 0.5rem;
+}
+
+.artigo-conteudo blockquote {
+    background: #f8fafc;
+    border-left: 4px solid #d9a13b;
+    padding: 1rem 1.5rem;
+    margin: 1.5rem 0;
+    font-style: italic;
+    color: #4a627a;
+}
+
+.artigo-conteudo table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+}
+
+.artigo-conteudo th,
+.artigo-conteudo td {
+    border: 1px solid #dee2e6;
+    padding: 0.75rem;
+    text-align: left;
+}
+
+.artigo-conteudo th {
+    background: #f8f9fa;
+    font-weight: 600;
+}
+
+.artigo-conteudo img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+    margin: 1rem 0;
+}
+
+/* Footer */
+.footer-link {
+    color: #cddcec;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.footer-link:hover {
+    color: var(--primary-accent);
+    padding-left: 5px;
+}
+
+.back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: var(--primary-dark);
+    color: white;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 99;
+    transition: all 0.3s;
+    text-decoration: none;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.back-to-top.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.back-to-top:hover {
+    background: var(--primary-accent);
+    color: var(--primary-dark);
+    transform: translateY(-3px);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .artigo-header {
+        padding: 1.5rem;
+    }
+
+    .artigo-body {
+        padding: 1.5rem;
+    }
+
+    .artigo-conteudo h2 {
+        font-size: 1.4rem;
+    }
+
+    .artigo-conteudo h3 {
+        font-size: 1.2rem;
+    }
+}
