@@ -1,0 +1,37 @@
+<!-- biblioteca/artigo.html -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Carregando...</title>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script>
+        const firebaseConfig = { /* SUAS CONFIG */ };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const artigoId = urlParams.get('id');
+
+        async function carregarArtigo() {
+            const doc = await db.collection('artigos').doc(artigoId).get();
+            if (doc.exists) {
+                const artigo = doc.data();
+                if (artigo.htmlUrl) {
+                    const response = await fetch(artigo.htmlUrl);
+                    const html = await response.text();
+                    document.open();
+                    document.write(html);
+                    document.close();
+                }
+            }
+        }
+        carregarArtigo();
+    </script>
+</head>
+
+<body>Carregando...</body>
+
+</html>
