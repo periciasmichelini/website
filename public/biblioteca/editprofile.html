@@ -11,7 +11,6 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap"
         rel="stylesheet">
-    <script src="./assets/js/firebase-config.js"></script>
     <style>
         * {
             font-family: 'Inter', sans-serif;
@@ -236,10 +235,26 @@
 </script>
 
     <script type="module">
+        // Verificação de login
+        if (!sessionStorage.getItem('admin_logado')) window.location.href = 'index.html';
+
+        import { getFirestore, doc, getDoc } from "https://gstatic.com";
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
+        const firebaseConfig = window.parent && window.parent.configGlobal ? window.parent.configGlobal : {};
+        const { getDoc, doc } = window.parent.firebaseFirestore; // Se você expôs o SDK no pai
 
+        // CONFIGURAÇÃO DO FIREBASE 
+        (function () {
+            const dadosPai = firebaseConfig;
+
+            if (dadosPai) {
+                console.log("Dados recebidos do Pai:", dadosPai);
+            } else {
+                console.error("Erro: A variável 'firebaseConfig' não foi encontrada na página pai.");
+            }
+        })();
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
@@ -248,10 +263,6 @@
         const METADATA_ID = "Q8KwxakzV9gKExncbXdf";
         const metadataRef = doc(db, "metadata", METADATA_ID);
 
-        // Verificação de login
-        if (!sessionStorage.getItem('admin_logado')) {
-            window.location.href = 'index.html';
-        }
 
         // Elementos do formulário
         const form = document.getElementById('profileForm');

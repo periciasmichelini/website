@@ -1,0 +1,44 @@
+{
+    "indexes": [
+        {
+            "collectionId": "articles",
+            "fields": [
+                {
+                    "fieldPath": "user_input.status",
+                    "mode": "ASCENDING"
+                },
+                {
+                    "fieldPath": "createdAt",
+                    "mode": "DESCENDING"
+                }
+            ]
+        },
+        {
+            "collectionId": "articles",
+            "fields": [
+                {
+                    "fieldPath": "user_input.sector",
+                    "mode": "ARRAY_CONTAINS"
+                },
+                {
+                    "fieldPath": "createdAt",
+                    "mode": "DESCENDING"
+                }
+            ]
+        },
+        {
+            "collectionId": "suggestions",
+            "fields": [
+                {
+                    "fieldPath": "score",
+                    "mode": "DESCENDING"
+                },
+                {
+                    "fieldPath": "createdAt",
+                    "mode": "DESCENDING"
+                }
+            ]
+        }
+    ],
+    "fieldOverrides": []
+}

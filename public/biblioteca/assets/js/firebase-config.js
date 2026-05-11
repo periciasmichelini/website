@@ -10,12 +10,5 @@ const firebaseConfig = {
     measurementId: "G-26ELVBP6DM"
 };
 
-// Inicializar Firebase
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-const storage = firebase.storage();
-
-// Configurar persistência offline (opcional)
-db.enablePersistence().catch((err) => {
-    console.warn('Erro ao ativar persistência offline:', err);
-});
+window.configGlobal = firebaseConfig;
+console.log("Configuração Global carregada com sucesso!");
