@@ -2,381 +2,234 @@
 <html lang="pt-br">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Perfil - Admin</title>
-    <!-- Bootstrap 5 + Tabler Icons + Google Fonts -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap"
-        rel="stylesheet">
-    <style>
-        * {
-            font-family: 'Inter', sans-serif;
-        }
-
-        body {
-            background: #f4f6fa;
-            padding: 0;
-            margin: 0;
-        }
-
-        .profile-container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 1.5rem;
-        }
-
-        .card-custom {
-            background: white;
-            border-radius: 28px;
-            border: none;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.02), 0 2px 6px rgba(0, 0, 0, 0.03);
-            overflow: hidden;
-        }
-
-        .card-header-custom {
-            background: white;
-            border-bottom: 1px solid #eef2f6;
-            padding: 1.5rem 1.8rem;
-        }
-
-        .form-label {
-            font-weight: 500;
-            font-size: 0.85rem;
-            margin-bottom: 0.3rem;
-            color: #1e293b;
-        }
-
-        .form-control,
-        .form-select {
-            border-radius: 14px;
-            border: 1px solid #e2e8f0;
-            padding: 0.6rem 1rem;
-            transition: 0.2s;
-        }
-
-        .form-control:focus,
-        .form-select:focus {
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
-
-        .btn-save {
-            background: #3b82f6;
-            border: none;
-            border-radius: 40px;
-            padding: 0.7rem 2rem;
-            font-weight: 500;
-            transition: 0.2s;
-        }
-
-        .btn-save:hover {
-            background: #2563eb;
-            transform: translateY(-1px);
-        }
-
-        .section-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin: 1.5rem 0 1rem 0;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid #eef2f6;
-            color: #0f172a;
-        }
-
-        .toast-custom {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 1100;
-        }
-    </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Editar Dados Firebase</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
 </head>
 
 <body>
+    <div class="container my-4">
+        <h2>Editar Dados do Firebase</h2>
+        <form id="editForm" class="row g-3">
+            <input type="hidden" id="recordId" />
 
-    <div class="profile-container">
-        <div class="card-custom">
-            <div class="card-header-custom">
-                <div class="d-flex align-items-center gap-3">
-                    <i class="ti ti-user-circle fs-1" style="color: #3b82f6;"></i>
-                    <div>
-                        <h4 class="fw-bold mb-0">Editar Perfil do Escritório</h4>
-                        <p class="text-muted mb-0 small">Gerencie as informações institucionais, endereço e redes
-                            sociais</p>
-                    </div>
-                </div>
+            <div class="col-md-6">
+                <label for="name" class="form-label">Nome</label>
+                <input type="text" class="form-control" id="name" required />
             </div>
-            <div class="p-4 p-lg-5">
-                <form id="profileForm">
-                    <!-- Dados principais -->
-                    <div class="row g-4">
-                        <div class="col-md-6">
-                            <label class="form-label">Organização</label>
-                            <input type="text" class="form-control" id="organization" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Nome do escritório</label>
-                            <input type="text" class="form-control" id="name" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Telefone</label>
-                            <input type="text" class="form-control" id="phone" placeholder="+55 19 99999-9999">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Website</label>
-                            <input type="url" class="form-control" id="website" placeholder="https://exemplo.com.br">
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label">Tipo de negócio</label>
-                            <select class="form-select" id="businessType" multiple size="3">
-                                <option value="law_firm">Law Firm (Escritório de Advocacia)</option>
-                                <option value="clinic">Clínica</option>
-                                <option value="consulting">Consultoria</option>
-                            </select>
-                            <div class="form-text">Segure Ctrl (ou Cmd) para selecionar múltiplas opções.</div>
-                        </div>
-                    </div>
 
-                    <!-- Endereço -->
-                    <div class="section-title"><i class="ti ti-map-pin me-2"></i>Endereço</div>
-                    <div class="row g-3">
-                        <div class="col-12">
-                            <label class="form-label">Rua</label>
-                            <input type="text" class="form-control" id="street">
-                        </div>
-                        <div class="col-md-4">
-                            <label class="form-label">Cidade</label>
-                            <input type="text" class="form-control" id="city">
-                        </div>
-                        <div class="col-md-4">
-                            <label class="form-label">Estado (UF)</label>
-                            <input type="text" class="form-control" id="state" maxlength="2">
-                        </div>
-                        <div class="col-md-4">
-                            <label class="form-label">CEP</label>
-                            <input type="text" class="form-control" id="postalCode">
-                        </div>
-                    </div>
-
-                    <!-- Redes sociais -->
-                    <div class="section-title"><i class="ti ti-share me-2"></i>Redes Sociais</div>
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <label class="form-label"><i class="ti ti-brand-facebook me-1"></i> Facebook</label>
-                            <input type="url" class="form-control" id="facebook" placeholder="https://facebook.com/...">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label"><i class="ti ti-brand-instagram me-1"></i> Instagram</label>
-                            <input type="url" class="form-control" id="instagram"
-                                placeholder="https://instagram.com/...">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label"><i class="ti ti-brand-x me-1"></i> X (Twitter)</label>
-                            <input type="url" class="form-control" id="x_twitter" placeholder="https://x.com/...">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label"><i class="ti ti-brand-linkedin me-1"></i> LinkedIn</label>
-                            <input type="url" class="form-control" id="linkedin" placeholder="https://linkedin.com/...">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label"><i class="ti ti-brand-youtube me-1"></i> YouTube</label>
-                            <input type="url" class="form-control" id="youtube" placeholder="https://youtube.com/...">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label"><i class="ti ti-brand-tiktok me-1"></i> TikTok</label>
-                            <input type="url" class="form-control" id="tiktok" placeholder="https://tiktok.com/@...">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label"><i class="ti ti-brand-pinterest me-1"></i> Pinterest</label>
-                            <input type="url" class="form-control" id="pinterest"
-                                placeholder="https://pinterest.com/...">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label"><i class="ti ti-brand-threads me-1"></i> Threads</label>
-                            <input type="url" class="form-control" id="threads" placeholder="https://threads.net/...">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label"><i class="ti ti-brand-whatsapp me-1"></i> WhatsApp (link)</label>
-                            <input type="url" class="form-control" id="whatsapp"
-                                placeholder="https://wa.me/551999999999">
-                        </div>
-                    </div>
-
-                    <div class="d-flex justify-content-end mt-5 gap-3">
-                        <button type="button" class="btn btn-light rounded-pill px-4"
-                            onclick="window.history.back()">Cancelar</button>
-                        <button type="submit" class="btn btn-save text-white px-5">Salvar Alterações</button>
-                    </div>
-                </form>
+            <div class="col-md-6">
+                <label for="organization" class="form-label">Organização</label>
+                <input type="text" class="form-control" id="organization" />
             </div>
-        </div>
+
+            <div class="col-md-6">
+                <label for="phone" class="form-label">Telefone</label>
+                <input type="text" class="form-control" id="phone" />
+            </div>
+
+            <div class="col-md-6">
+                <label for="website" class="form-label">Website</label>
+                <input type="url" class="form-control" id="website" />
+            </div>
+
+            <h5>Endereço</h5>
+
+            <div class="col-md-6">
+                <label for="street" class="form-label">Rua</label>
+                <input type="text" class="form-control" id="street" />
+            </div>
+
+            <div class="col-md-3">
+                <label for="city" class="form-label">Cidade</label>
+                <input type="text" class="form-control" id="city" />
+            </div>
+
+            <div class="col-md-2">
+                <label for="state" class="form-label">Estado</label>
+                <input type="text" class="form-control" id="state" maxlength="2" />
+            </div>
+
+            <div class="col-md-3">
+                <label for="postalCode" class="form-label">CEP</label>
+                <input type="text" class="form-control" id="postalCode" />
+            </div>
+
+            <h5>Tipo de negócio</h5>
+
+            <div class="col-12">
+                <select multiple class="form-select" id="businessType">
+                    <option value="law_firm">Law Firm</option>
+                    <option value="clinic">Clinic</option>
+                    <option value="consulting">Consulting</option>
+                    <!-- Adicione mais opções se quiser -->
+                </select>
+            </div>
+
+            <h5>Mídias Sociais</h5>
+
+            <div class="col-md-6">
+                <label for="facebook" class="form-label">Facebook</label>
+                <input type="url" class="form-control" id="facebook" />
+            </div>
+
+            <div class="col-md-6">
+                <label for="instagram" class="form-label">Instagram</label>
+                <input type="url" class="form-control" id="instagram" />
+            </div>
+
+            <div class="col-md-6">
+                <label for="jusbrasil" class="form-label">Jusbrasil</label>
+                <input type="url" class="form-control" id="jusbrasil" />
+            </div>
+
+            <div class="col-md-6">
+                <label for="linkedin" class="form-label">LinkedIn</label>
+                <input type="url" class="form-control" id="linkedin" />
+            </div>
+
+            <div class="col-md-6">
+                <label for="pinterest" class="form-label">Pinterest</label>
+                <input type="url" class="form-control" id="pinterest" />
+            </div>
+
+            <div class="col-md-6">
+                <label for="threads" class="form-label">Threads</label>
+                <input type="url" class="form-control" id="threads" />
+            </div>
+
+            <div class="col-md-6">
+                <label for="tiktok" class="form-label">TikTok</label>
+                <input type="url" class="form-control" id="tiktok" />
+            </div>
+
+            <div class="col-md-6">
+                <label for="whatsapp" class="form-label">WhatsApp</label>
+                <input type="url" class="form-control" id="whatsapp" />
+            </div>
+
+            <div class="col-md-6">
+                <label for="x_twitter" class="form-label">X (Twitter)</label>
+                <input type="url" class="form-control" id="x_twitter" />
+            </div>
+
+            <div class="col-md-6">
+                <label for="youtube" class="form-label">YouTube</label>
+                <input type="url" class="form-control" id="youtube" />
+            </div>
+
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">Salvar</button>
+            </div>
+        </form>
     </div>
-
-    <!-- Toast de notificação -->
-    <div class="toast-custom">
-        <div id="liveToast" class="toast align-items-center text-white bg-success border-0" role="alert">
-            <div class="d-flex">
-                <div class="toast-body" id="toastMsg">Operação realizada.</div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Firebase SDK -->
-    <script type="importmap">
-    {
-        "imports": {
-            "firebase/": "https://www.gstatic.com/firebasejs/10.8.0/"
-        }
-    }
-</script>
 
     <script type="module">
-        // Verificação de login
-        if (!sessionStorage.getItem('admin_logado')) window.location.href = 'index.html';
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+        import { getFirestore, doc, getDoc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
-        import { getFirestore, doc, getDoc } from "https://gstatic.com";
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        const firebaseConfig = window.parent && window.parent.configGlobal ? window.parent.configGlobal : {};
-        const { getDoc, doc } = window.parent.firebaseFirestore; // Se você expôs o SDK no pai
-
-        // CONFIGURAÇÃO DO FIREBASE 
-        (function () {
-            const dadosPai = firebaseConfig;
-
-            if (dadosPai) {
-                console.log("Dados recebidos do Pai:", dadosPai);
-            } else {
-                console.error("Erro: A variável 'firebaseConfig' não foi encontrada na página pai.");
-            }
-        })();
+        // Config Firebase
+        import firebaseConfig from "./assets/js/firebase-config.js";
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // ID do documento de metadados (conforme sua base: Q8KwxakzV9gKExncbXdf)
-        const METADATA_ID = "Q8KwxakzV9gKExncbXdf";
-        const metadataRef = doc(db, "metadata", METADATA_ID);
+        // Substitua pelo ID real do documento a ser editado
+        const docId = "Q8KwxakzV9gKExncbXdf";
+        const docRef = doc(db, "metadata", docId);
 
+        const form = document.getElementById("editForm");
 
-        // Elementos do formulário
-        const form = document.getElementById('profileForm');
-        const toastEl = document.getElementById('liveToast');
-        const toastMsg = document.getElementById('toastMsg');
-
-        function showToast(message, isError = false) {
-            toastEl.classList.remove('bg-success', 'bg-danger');
-            toastEl.classList.add(isError ? 'bg-danger' : 'bg-success');
-            toastMsg.innerText = message;
-            const toast = new bootstrap.Toast(toastEl, { delay: 3000 });
-            toast.show();
+        if (!sessionStorage.getItem("admin_logado")) {
+            window.location.href = "login.html";
         }
 
-        // Carregar dados do Firebase e preencher o formulário
-        async function carregarDados() {
-            try {
-                const docSnap = await getDoc(metadataRef);
-                if (docSnap.exists()) {
-                    const data = docSnap.data();
-                    // Dados principais
-                    document.getElementById('organization').value = data.organization || '';
-                    document.getElementById('name').value = data.name || '';
-                    document.getElementById('phone').value = data.phone || '';
-                    document.getElementById('website').value = data.website || '';
+        async function loadData() {
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+                const data = docSnap.data();
+                document.getElementById("recordId").value = docId;
+                document.getElementById("name").value = data.name || "";
+                document.getElementById("organization").value = data.organization || "";
+                document.getElementById("phone").value = data.phone || "";
+                document.getElementById("website").value = data.website || "";
 
-                    // Business type (multi-select)
-                    const businessTypeSelect = document.getElementById('businessType');
-                    if (data.business_type && Array.isArray(data.business_type)) {
-                        Array.from(businessTypeSelect.options).forEach(opt => {
-                            opt.selected = data.business_type.includes(opt.value);
-                        });
-                    }
-
-                    // Endereço
-                    if (data.address) {
-                        document.getElementById('street').value = data.address.street || '';
-                        document.getElementById('city').value = data.address.city || '';
-                        document.getElementById('state').value = data.address.state || '';
-                        document.getElementById('postalCode').value = data.address.postalCode || '';
-                    }
-
-                    // Redes sociais
-                    if (data.socialmedia) {
-                        document.getElementById('facebook').value = data.socialmedia.facebook || '';
-                        document.getElementById('instagram').value = data.socialmedia.instagram || '';
-                        document.getElementById('x_twitter').value = data.socialmedia.x_twitter || '';
-                        document.getElementById('linkedin').value = data.socialmedia.linkedin || '';
-                        document.getElementById('youtube').value = data.socialmedia.youtube || '';
-                        document.getElementById('tiktok').value = data.socialmedia.tiktok || '';
-                        document.getElementById('pinterest').value = data.socialmedia.pinterest || '';
-                        document.getElementById('threads').value = data.socialmedia.threads || '';
-                        document.getElementById('whatsapp').value = data.socialmedia.whatsapp || '';
-                    }
-                } else {
-                    showToast('Documento de metadados não encontrado!', true);
+                if (data.address) {
+                    document.getElementById("street").value = data.address.street || "";
+                    document.getElementById("city").value = data.address.city || "";
+                    document.getElementById("state").value = data.address.state || "";
+                    document.getElementById("postalCode").value = data.address.postalCode || "";
                 }
-            } catch (error) {
-                console.error(error);
-                showToast('Erro ao carregar dados: ' + error.message, true);
+
+                if (data.business_type && Array.isArray(data.business_type)) {
+                    const select = document.getElementById("businessType");
+                    for (const option of select.options) {
+                        option.selected = data.business_type.includes(option.value);
+                    }
+                }
+
+                if (data.socialmedia) {
+                    document.getElementById("facebook").value = data.socialmedia.facebook || "";
+                    document.getElementById("instagram").value = data.socialmedia.instagram || "";
+                    document.getElementById("jusbrasil").value = data.socialmedia.jusbrasil || "";
+                    document.getElementById("linkedin").value = data.socialmedia.linkedin || "";
+                    document.getElementById("pinterest").value = data.socialmedia.pinterest || "";
+                    document.getElementById("threads").value = data.socialmedia.threads || "";
+                    document.getElementById("tiktok").value = data.socialmedia.tiktok || "";
+                    document.getElementById("whatsapp").value = data.socialmedia.whatsapp || "";
+                    document.getElementById("x_twitter").value = data.socialmedia.x_twitter || "";
+                    document.getElementById("youtube").value = data.socialmedia.youtube || "";
+                }
+            } else {
+                alert("Documento não encontrado!");
             }
         }
 
-        // Salvar alterações no Firebase
-        form.addEventListener('submit', async (e) => {
+        form.addEventListener("submit", async (e) => {
             e.preventDefault();
 
-            // Coletar business_type (múltiplos valores)
-            const businessTypeSelect = document.getElementById('businessType');
-            const businessType = Array.from(businessTypeSelect.selectedOptions).map(opt => opt.value);
+            const businessTypeSelect = document.getElementById("businessType");
+            const selectedBusinessTypes = Array.from(businessTypeSelect.selectedOptions).map(opt => opt.value);
 
             const updatedData = {
-                organization: document.getElementById('organization').value,
-                name: document.getElementById('name').value,
-                phone: document.getElementById('phone').value,
-                website: document.getElementById('website').value,
-                business_type: businessType,
+                name: document.getElementById("name").value,
+                organization: document.getElementById("organization").value,
+                phone: document.getElementById("phone").value,
+                website: document.getElementById("website").value,
                 address: {
-                    street: document.getElementById('street').value,
-                    city: document.getElementById('city').value,
-                    state: document.getElementById('state').value,
-                    postalCode: document.getElementById('postalCode').value
+                    street: document.getElementById("street").value,
+                    city: document.getElementById("city").value,
+                    state: document.getElementById("state").value,
+                    postalCode: document.getElementById("postalCode").value,
                 },
+                business_type: selectedBusinessTypes,
                 socialmedia: {
-                    facebook: document.getElementById('facebook').value,
-                    instagram: document.getElementById('instagram').value,
-                    x_twitter: document.getElementById('x_twitter').value,
-                    linkedin: document.getElementById('linkedin').value,
-                    youtube: document.getElementById('youtube').value,
-                    tiktok: document.getElementById('tiktok').value,
-                    pinterest: document.getElementById('pinterest').value,
-                    threads: document.getElementById('threads').value,
-                    whatsapp: document.getElementById('whatsapp').value
+                    facebook: document.getElementById("facebook").value,
+                    instagram: document.getElementById("instagram").value,
+                    instagram: document.getElementById("jusbrasil").value,
+                    linkedin: document.getElementById("linkedin").value,
+                    pinterest: document.getElementById("pinterest").value,
+                    threads: document.getElementById("threads").value,
+                    tiktok: document.getElementById("tiktok").value,
+                    whatsapp: document.getElementById("whatsapp").value,
+                    x_twitter: document.getElementById("x_twitter").value,
+                    youtube: document.getElementById("youtube").value,
                 },
-                updatedAt: new Date().toISOString()
+                updatedAt: serverTimestamp(),
             };
 
             try {
-                await updateDoc(metadataRef, updatedData);
-                showToast('Perfil atualizado com sucesso!');
-                // Opcional: recarregar dados após 1 segundo
-                setTimeout(() => carregarDados(), 1000);
+                await setDoc(docRef, updatedData, { merge: true });
+                alert("Dados salvos com sucesso!");
             } catch (error) {
-                console.error(error);
-                showToast('Erro ao salvar: ' + error.message, true);
+                alert("Erro ao salvar dados: " + error.message);
             }
         });
 
-        // Inicializar carregamento
-        carregarDados();
+        loadData();
     </script>
-
-    <!-- Bootstrap JS (para o toast e manipulação) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

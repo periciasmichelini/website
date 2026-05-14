@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Admin - Dashboard | Tabler Style</title>
+
+    <!-- Bootstrap 5 + Tabler Core CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Tabler Icons (Biblioteca de ícones do Tabler) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+    <!-- Google Fonts (Inter) -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f4f6fa;
+            overflow-x: hidden;
+        }
+
+        /* ========= SIDEBAR ESTILO TABLER ========= */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 280px;
+            background: #1e293b;
+            color: #e2e8f0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem 1.5rem;
+            border-bottom: 1px solid #334155;
+            margin-bottom: 1.5rem;
+        }
+
+        .sidebar-header h3 {
+            font-weight: 600;
+            font-size: 1.4rem;
+            color: white;
+            margin: 0;
+            letter-spacing: -0.3px;
+        }
+
+        .sidebar-header p {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            margin: 0;
+        }
+
+        .nav-menu {
+            list-style: none;
+            padding: 0 1rem;
+        }
+
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0.7rem 1rem;
+            border-radius: 12px;
+            color: #cbd5e1;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .nav-link i {
+            font-size: 1.3rem;
+            width: 24px;
+        }
+
+        .nav-link:hover {
+            background: #334155;
+            color: white;
+        }
+
+        .nav-link.active {
+            background: #3b82f6;
+            color: white;
+            box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
+        }
+
+        /* ========= MAIN CONTENT ========= */
+        .main-content {
+            margin-left: 280px;
+            padding: 1.5rem 2rem;
+            transition: all 0.3s;
+        }
+
+        /* Top Navbar */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 0.8rem 1.8rem;
+            border-radius: 20px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02), 0 1px 2px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-weight: 700;
+            font-size: 1.6rem;
+            color: #0f172a;
+            margin: 0;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 42px;
+            height: 42px;
+            background: #3b82f6;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .logout-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+
+        .logout-btn:hover {
+            background: #dc2626;
+        }
+
+        /* CARDS DASHBOARD */
+        .dashboard-card {
+            background: white;
+            border-radius: 24px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+            height: 100%;
+            border: 1px solid #eef2f6;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -12px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-icon {
+            width: 70px;
+            height: 70px;
+            background: #eff6ff;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.2rem auto;
+        }
+
+        .card-icon i {
+            font-size: 2.5rem;
+            color: #3b82f6;
+        }
+
+        .card-title {
+            font-weight: 700;
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: #1e293b;
+        }
+
+        .card-text {
+            color: #64748b;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .btn-card {
+            background: #f1f5f9;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 40px;
+            font-weight: 500;
+            color: #1e293b;
+            transition: 0.2s;
+        }
+
+        .btn-card:hover {
+            background: #e2e8f0;
+            color: #0f172a;
+        }
+
+        footer {
+            margin-top: 3rem;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #94a3b8;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 1.5rem;
+        }
+
+        /* Responsivo */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                width: 260px;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+
+            .top-bar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- SIDEBAR (Menu principal) -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3>ADMIN Panel</h3>
+            <p>Gestão de Conteúdo</p>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="#" class="nav-link active" data-page="dashboard">
+                    <i class="ti ti-dashboard"></i> Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-page="profile">
+                    <i class="ti ti-user-circle"></i> Editar Profile
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-page="articles">
+                    <i class="ti ti-file-text"></i> Editar Artigos
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" data-page="suggestions">
+                    <i class="ti ti-bulb"></i> Editar Sugestões
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <div class="main-content">
+        <div class="top-bar">
+            <h1 class="page-title" id="mainTitle">Dashboard</h1>
+            <div class="user-info">
+                <!-- <div class="user-avatar">JS</div> -->
+                <button class="logout-btn" onclick="logout()">Sair</button>
+            </div>
+        </div>
+
+        <div id="dynamicContent">
+            <!-- Cards de acesso rápido (Dashboard) -->
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="dashboard-card">
+                        <div class="card-icon">
+                            <i class="ti ti-user-edit"></i>
+                        </div>
+                        <h3 class="card-title">Profile</h3>
+                        <p class="card-text">Gerencie os metadados do escritório, endereço e redes sociais.</p>
+                        <button class="btn-card" onclick="navigateTo('profile')">Acessar Profile</button>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="dashboard-card">
+                        <div class="card-icon">
+                            <i class="ti ti-article"></i>
+                        </div>
+                        <h3 class="card-title">Artigos</h3>
+                        <p class="card-text">Crie, edite ou remova artigos completos para seu site/jusbrasil.</p>
+                        <button class="btn-card" onclick="navigateTo('articles')">Gerenciar Artigos</button>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="dashboard-card">
+                        <div class="card-icon">
+                            <i class="ti ti-list-check"></i>
+                        </div>
+                        <h3 class="card-title">Sugestões</h3>
+                        <p class="card-text">Administre ideias de temas e palavras‑chave para novos conteúdos.</p>
+                        <button class="btn-card" onclick="navigateTo('suggestions')">Editar Sugestões</button>
+                    </div>
+                </div>
+            </div>
+            <footer>
+                © 2026 SERVE consulting INC — Ferramenta de autosserviço para advogados e profissionais leigos.
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        // Controle de sessão (senha hardcoded)
+        if (!sessionStorage.getItem('admin_logado')) {
+            window.location.href = 'index.html';
+        }
+
+        // Elementos DOM
+        const mainTitle = document.getElementById('mainTitle');
+        const dynamicContent = document.getElementById('dynamicContent');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        // Função para carregar conteúdo via iframe ou redirecionamento (preservando layout com sidebar)
+        // Como cada ferramenta (edit-profile, edit-articles, edit-suggestions) são páginas separadas,
+        // a melhor abordagem é navegar para elas, mas mantendo a sidebar ativa.
+        // Para uma experiência "single page", carregamos via iframe ou redirecionamos.
+        // Optamos por redirecionamento simples, porém com a sidebar fixa isso quebraria o layout.
+        // Solução elegante: usar iframe dinâmico para manter menu lateral sempre visível.
+
+        function navigateTo(page) {
+            let url = '';
+            let title = '';
+            switch (page) {
+                case 'profile':
+                    url = 'editprofile.html';
+                    title = 'Editar Profile';
+                    break;
+                case 'articles':
+                    url = 'editarticles.html';
+                    title = 'Gerenciar Artigos';
+                    break;
+                case 'suggestions':
+                    url = 'editsuggestions.html';
+                    title = 'Editar Sugestões';
+                    break;
+                default:
+                    url = '';
+                    title = 'Dashboard';
+            }
+
+            if (page === 'dashboard') {
+                // Recarrega o conteúdo inicial (dashboard)
+                window.location.href = 'admin.html'; // recarrega a página
+                return;
+            }
+
+            // Substitui o conteúdo principal por um iframe que carrega a página de edição
+            mainTitle.innerText = title;
+            dynamicContent.innerHTML = `
+                <div style="background: white; border-radius: 24px; padding: 0; overflow: hidden; box-shadow: 0 8px 20px rgba(0,0,0,0.05);">
+                    <iframe src="${url}" style="width: 100%; height: 85vh; border: none; border-radius: 24px;"></iframe>
+                </div>
+            `;
+
+            // Atualiza classe active no menu
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('data-page') === page) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // Função de logout
+        function logout() {
+            sessionStorage.removeItem('admin_logado');
+            window.location.href = 'index.html';
+        }
+
+        // Event listeners para os links da sidebar (evitar reload total)
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const page = link.getAttribute('data-page');
+                if (page === 'dashboard') {
+                    window.location.href = 'admin.html';
+                } else {
+                    navigateTo(page);
+                }
+            });
+        });
+
+        // Se a página atual já for admin (dashboard), garantir que os cards funcionem com navegação no iframe
+        // Mas os botões dentro do card também disparam navigateTo
+    </script>
+    <!-- Firebase SDK -->
+    <!-- 1º: Carregue o App do Firebase (obrigatório) -->
+    <script src="https://gstatic.com"></script>
+    <!-- 3º: SÓ AGORA carregue sua configuração -->
+    <script src="./assets/js/firebase-config.js"></script>
+</body>
+
+</html>

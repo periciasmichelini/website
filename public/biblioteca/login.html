@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Login Admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+    <div class="container d-flex justify-content-center align-items-center vh-100">
+
+        <div class="card shadow p-4 w-100" style="max-width: 420px;">
+
+            <h4 class="text-center mb-3">Admin Login</h4>
+
+            <form id="loginForm" class="needs-validation" novalidate>
+
+                <!-- Email -->
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input type="email" id="email" class="form-control" required placeholder="exemplo@email.com">
+                    <div class="invalid-feedback">
+                        Informe um email válido.
+                    </div>
+                </div>
+
+                <!-- Password -->
+                <div class="mb-3">
+                    <label class="form-label">Senha</label>
+                    <input type="password" id="password" class="form-control" required placeholder="Digite sua senha">
+                    <div class="invalid-feedback">
+                        Informe sua senha valida.
+                    </div>
+                </div>
+
+                <!-- Error -->
+                <div id="errorBox" class="alert alert-danger d-none"><strong>Erro!</strong> Verifique o e-mail e a
+                    senha.</div>
+
+                <!-- Button -->
+                <button type="submit" class="btn btn-primary w-100">
+                    LOGIN
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <script src="./assets/js/login.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const email = document.getElementById('email');
+            const password = document.getElementById('password');
+            const errorBox = document.getElementById('errorBox');
+
+            email.addEventListener('blur', function () {
+
+                if (regexEmail.test(email.value)) {
+                    // Se for válido
+                    this.classList.remove('is-invalid');
+                    this.classList.add('is-valid');
+                } else {
+                    // Se for inválido
+                    this.classList.remove('is-valid');
+                    this.classList.add('is-invalid');
+                }
+            });
+
+            // Opcional: Remove o estado de erro ao voltar a digitar para não incomodar o usuário
+            email.addEventListener('input', function () {
+                this.classList.remove('is-invalid');
+            });
+
+            password.addEventListener('blur', function () {
+
+                if (regexSenha.test(password.value)) {
+                    this.classList.remove('is-invalid');
+                    this.classList.add('is-valid');
+                } else {
+                    this.classList.remove('is-valid');
+                    this.classList.add('is-invalid');
+                }
+            });
+
+            password.addEventListener('input', function () {
+                this.classList.remove('is-invalid');
+            });
+        });
+        function validarCampos() {
+            const emailValido = regexEmail.test(email.value);
+            const senhaValida = regexSenha.test(password.value);
+
+            return emailValido && senhaValida;
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', function (event) {
+
+            event.preventDefault();
+
+            var validFields = validarCampos();
+
+
+            //if (!form.checkValidity() && validFields) {
+            if (!validFields) {
+                event.preventDefault();
+                event.stopPropagation();
+                console.log("Envio bloqueado: Campos inválidos.");
+                errorBox.classList.remove('d-none');
+            }
+            else {
+                console.log("Envio permitido: Tudo OK.");
+                VerifyLogin(event);
+                this.classList.add('was-validated');
+            }
+
+
+        });
+
+    </script>
+</body>
+
+</html>

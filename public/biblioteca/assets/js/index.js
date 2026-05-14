@@ -15,31 +15,57 @@ function getSecret(input) {
     return match ? match[1] : null;
 }
 
-function verificarSenha() {
 
-    console.log(getSecret(DATA_KEY)); // "admin123"
+function verificarSenha(event) {
 
-    if (document.getElementById('password').value == "") {
-        document.getElementById('password').value = '';
+    event?.preventDefault();
 
-        // 1. Impede o recarregamento da página
-        if (event) event.preventDefault();
+    const passwordInput = document.getElementById('password');
+    const errorMessage = document.getElementById('errorMessage');
+
+    const password = passwordInput.value.trim();
+    const secret = getSecret(DATA_KEY);
+
+    console.log("Senha digitada:", password);
+    console.log("Senha esperada:", secret);
+    alert("Login...");
+
+    // segurança: validação do secret
+    if (!secret) {
+
+        console.error("Erro ao decodificar senha");
+        alert("Erro ao decodificar senha");
+        return;
+
     }
-    else if ((document.getElementById('password').value == getSecret(DATA_KEY))) {
+
+    // campo vazio
+    if (password === "") {
+        alert("campo password vazio");
+        passwordInput.value = '';
+        return;
+
+    }
+
+    // login correto
+    if (password === secret) {
+        alert("login correto");
+        console.log("Login OK");
+
         sessionStorage.setItem('admin_logado', 'true');
+
         window.location.href = 'admin.html';
-    } else {
-        // Opcional: Limpa o campo de senha
-        document.getElementById('password').value = '';
 
-        // 1. Impede o recarregamento da página
-        if (event) event.preventDefault();
-
-        // 2. Mostra a DIV de erro
-        //const divErro = document.getElementById('errorMessage');
-        //divErro.style.display = 'flex'; // Ou block 'flex' dependendo do seu layout
-        this.successMessage = document.getElementById('errorMessage');
-        this.successMessage?.classList.add('show');
+        return;
 
     }
+
+    alert("Senha incorreta");
+    // login inválido
+    console.log("Senha incorreta");
+
+    passwordInput.value = '';
+
+    errorMessage?.classList.add('show');
 }
+window.verificarSenha = verificarSenha;

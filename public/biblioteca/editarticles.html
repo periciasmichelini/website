@@ -2,699 +2,320 @@
 <html lang="pt-br">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Editar Artigos - Admin</title>
-    <!-- Bootstrap 5 + Tabler Icons + Google Fonts -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap"
-        rel="stylesheet">
-    <!-- Biblioteca para exportar PDF -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"
-        integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin - Editar Artigos</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+
     <style>
         body {
-            font-family: 'Inter', sans-serif;
-            background: #f4f6fa;
-            padding: 0;
-            margin: 0;
+            background: #f8f9fa;
         }
 
-        .articles-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 1.5rem;
-        }
-
-        .card-artigo {
-            background: white;
-            border-radius: 24px;
-            border: 1px solid #eef2f6;
-            transition: 0.2s;
-            height: 100%;
-        }
-
-        .card-artigo:hover {
-            box-shadow: 0 12px 24px -12px rgba(0, 0, 0, 0.1);
-            transform: translateY(-2px);
+        .table td,
+        .table th {
+            vertical-align: middle;
         }
 
         .badge-status {
-            font-size: 0.7rem;
-            padding: 4px 10px;
-            border-radius: 40px;
-        }
-
-        .badge-draft {
-            background: #f1f5f9;
-            color: #475569;
-        }
-
-        .badge-reviewed {
-            background: #fef9c3;
-            color: #854d0e;
-        }
-
-        .badge-published {
-            background: #dcfce7;
-            color: #166534;
-        }
-
-        .modal-xl-custom {
-            max-width: 1000px;
-        }
-
-        .form-section-title {
-            font-weight: 600;
-            font-size: 1rem;
-            margin: 1.2rem 0 1rem 0;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid #eef2f6;
-            color: #0f172a;
-        }
-
-        .form-label {
-            font-weight: 500;
-            font-size: 0.8rem;
-            margin-bottom: 0.25rem;
-            color: #334155;
-        }
-
-        .form-control,
-        .form-select {
-            border-radius: 12px;
-            border: 1px solid #e2e8f0;
-            padding: 0.5rem 0.9rem;
-        }
-
-        .btn-action {
-            border-radius: 40px;
-            padding: 0.3rem 1rem;
-        }
-
-        .btn-gerar {
-            background: #8b5cf6;
-            color: white;
-            border: none;
-            border-radius: 40px;
-            padding: 0.3rem 1rem;
-            font-size: 0.8rem;
-        }
-
-        .btn-gerar:hover {
-            background: #7c3aed;
+            cursor: pointer;
         }
     </style>
 </head>
 
 <body>
 
-    <div class="articles-container">
-        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
-            <div>
-                <h2 class="fw-semibold mb-0"><i class="ti ti-article me-2"></i>Gerenciar Artigos</h2>
-                <p class="text-muted mt-1">Crie, edite ou remova artigos. Exporte para PDF/HTML.</p>
-            </div>
-            <button class="btn btn-primary rounded-pill px-4" onclick="abrirModalCriar()">
-                <i class="ti ti-plus me-1"></i> Novo Artigo
+    <div class="container py-4">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h3>📄 Gerenciador de Artigos</h3>
+
+            <button class="btn btn-success" onclick="novoArtigo()">
+                + Adicionar Artigo
             </button>
         </div>
 
-        <div id="listaArtigos" class="row g-4">
-            <div class="col-12 text-center py-5">
-                <div class="spinner-border text-primary" role="status"></div>
-                <p class="mt-2">Carregando artigos...</p>
+        <div class="card">
+            <div class="card-body">
+
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Título</th>
+                            <th>Última Atualização</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="articlesTable"></tbody>
+                </table>
+
             </div>
         </div>
     </div>
-
-    <!-- MODAL PARA CRIAR/EDITAR ARTIGO -->
-    <div class="modal fade" id="modalArtigo" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
-        <div class="modal-dialog modal-xl modal-dialog-scrollable">
-            <div class="modal-content" style="border-radius: 28px;">
-                <div class="modal-header border-0 pt-4 px-4">
-                    <h5 class="modal-title fw-bold" id="modalTitleArtigo">Novo Artigo</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body px-4 pb-4">
-                    <form id="formArtigo">
-                        <input type="hidden" id="artigoId" value="">
-
-                        <ul class="nav nav-tabs mb-3" id="artigoTab" role="tablist">
-                            <li class="nav-item"><button class="nav-link active" id="user-tab" data-bs-toggle="tab"
-                                    data-bs-target="#userInput" type="button">📥 Dados do Usuário</button></li>
-                            <li class="nav-item"><button class="nav-link" id="seo-tab" data-bs-toggle="tab"
-                                    data-bs-target="#otimization" type="button">🔍 Otimização / SEO</button></li>
-                            <li class="nav-item"><button class="nav-link" id="result-tab" data-bs-toggle="tab"
-                                    data-bs-target="#resultArea" type="button">📄 Resultado Final</button></li>
-                        </ul>
-
-                        <div class="tab-content">
-                            <!-- Aba Dados do Usuário -->
-                            <div class="tab-pane fade show active" id="userInput">
-                                <div class="row g-3">
-                                    <div class="col-md-6"><label class="form-label">Título (sugerido)</label><input
-                                            type="text" class="form-control" id="user_title"></div>
-                                    <div class="col-md-6"><label class="form-label">Palavra-chave
-                                            principal</label><input type="text" class="form-control"
-                                            id="primaryKeyword"></div>
-                                    <div class="col-md-4"><label class="form-label">Foco</label><select
-                                            class="form-select" id="focus">
-                                            <option value="global">Global</option>
-                                            <option value="local">Local</option>
-                                        </select></div>
-                                    <div class="col-md-4"><label class="form-label">Intenção</label><select
-                                            class="form-select" id="intent">
-                                            <option value="informativo_conversao">Informativo+Conversão</option>
-                                            <option value="informativo">Informativo</option>
-                                            <option value="conversao">Conversão</option>
-                                        </select></div>
-                                    <div class="col-md-4"><label class="form-label">Status</label><select
-                                            class="form-select" id="status">
-                                            <option value="draft">Rascunho</option>
-                                            <option value="reviewed">Revisado</option>
-                                            <option value="published">Publicado</option>
-                                        </select></div>
-                                    <div class="col-md-6"><label class="form-label">Setor sugerido</label><input
-                                            type="text" class="form-control" id="suggested_sector"></div>
-                                    <div class="col-md-6"><label class="form-label">Objetivo sugerido</label><input
-                                            type="text" class="form-control" id="suggested_objective"></div>
-                                    <div class="col-12"><label class="form-label">Snippet inicial</label><textarea
-                                            class="form-control" id="initial_snippet" rows="2"></textarea></div>
-                                    <div class="col-12"><label class="form-label">Texto completo do artigo (Problema →
-                                            Lei → Prática → CTA)</label><textarea class="form-control"
-                                            id="fullTextFromUser" rows="6"></textarea></div>
-                                    <div class="col-md-6"><label class="form-label">Setores (vírgula)</label><input
-                                            type="text" class="form-control" id="sector"
-                                            placeholder="labor, direito trabalhista"></div>
-                                    <div class="col-md-6"><label class="form-label">Objetivos (vírgula)</label><input
-                                            type="text" class="form-control" id="objective"
-                                            placeholder="explain, conversion, crisis"></div>
-                                    <div class="col-12"><label class="form-label">Dados de tendência</label><input
-                                            type="text" class="form-control" id="trends_data"></div>
-                                    <div class="col-12"><label class="form-label">Resumo curto (1-2
-                                            frases)</label><input type="text" class="form-control" id="shortSummary">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Aba Otimização / SEO -->
-                            <div class="tab-pane fade" id="otimization">
-                                <div class="d-flex justify-content-end mb-3">
-                                    <button type="button" class="btn-gerar" id="gerarOtimizacaoBtn"><i
-                                            class="ti ti-wand me-1"></i> Gerar Otimização / SEO (IA)</button>
-                                </div>
-                                <div class="row g-3">
-                                    <div class="col-12"><label class="form-label">Perfil do autor</label><textarea
-                                            class="form-control" id="authorProfile" rows="2"></textarea></div>
-                                    <div class="col-md-6"><label class="form-label">Meta Title</label><input type="text"
-                                            class="form-control" id="metaTitle"></div>
-                                    <div class="col-md-6"><label class="form-label">Meta Description</label><input
-                                            type="text" class="form-control" id="metaDescription"></div>
-                                    <div class="col-md-4"><label class="form-label">Tom de voz</label><select
-                                            class="form-select" id="tone">
-                                            <option value="formal">Formal</option>
-                                            <option value="intermediate" selected>Intermediário</option>
-                                            <option value="coloquial">Coloquial</option>
-                                        </select></div>
-                                    <div class="col-md-4"><label class="form-label">Revisado?</label><select
-                                            class="form-select" id="hasBeenRevised">
-                                            <option value="false">Não</option>
-                                            <option value="true">Sim</option>
-                                        </select></div>
-                                    <div class="col-md-4"><label class="form-label">Schema Type (JSON)</label><input
-                                            type="text" class="form-control" id="schemaType"
-                                            placeholder='["Article","FAQ"]'></div>
-                                    <div class="col-12"><label class="form-label">Conceitos destacados (um por
-                                            linha)</label><textarea class="form-control" id="conceptsHighlighted"
-                                            rows="3"></textarea></div>
-                                </div>
-                            </div>
-
-                            <!-- Aba Resultado Final -->
-                            <div class="tab-pane fade" id="resultArea">
-                                <div class="d-flex justify-content-end mb-3 gap-2">
-                                    <button type="button" class="btn-gerar" id="gerarResultadoBtn"><i
-                                            class="ti ti-wand me-1"></i> Gerar Resultado Final (IA)</button>
-                                </div>
-                                <div class="row g-3">
-                                    <div class="col-12"><label class="form-label">Título final</label><input type="text"
-                                            class="form-control" id="resultTitle"></div>
-                                    <div class="col-12"><label class="form-label">Texto adaptado para o
-                                            canal</label><textarea class="form-control" id="resultText"
-                                            rows="6"></textarea></div>
-                                    <div class="col-12"><label class="form-label">Bullets (separados por ponto e
-                                            vírgula)</label><input type="text" class="form-control" id="bullets"
-                                            placeholder="Dica 1; Dica 2"></div>
-                                    <div class="col-12"><label class="form-label">Hashtags (separadas por
-                                            espaço)</label><input type="text" class="form-control" id="hashtags"></div>
-                                    <div class="col-12"><label class="form-label">CTA</label><input type="text"
-                                            class="form-control" id="CTA"></div>
-                                    <div class="col-12"><label class="form-label">Prompt gerado (para usar em
-                                            IA)</label><textarea class="form-control" id="generatedPrompt"
-                                            rows="4"></textarea></div>
-                                    <div class="col-12"><label class="form-label">Artigo gerado (HTML/Texto) - Completo
-                                            e formatado</label><textarea class="form-control" id="generatedArticle"
-                                            rows="8"></textarea></div>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer border-0 pb-4 px-4">
-                    <button type="button" class="btn btn-light rounded-pill px-4"
-                        data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary rounded-pill px-4" id="btnSalvarArtigo">Salvar
-                        Artigo</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Toast de notificação -->
-    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1100">
-        <div id="liveToast" class="toast align-items-center text-white bg-success border-0" role="alert">
-            <div class="d-flex">
-                <div class="toast-body" id="toastMsg"></div><button type="button"
-                    class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Firebase SDK -->
-    <script type="importmap">
-    {
-        "imports": {
-            "firebase/": "https://www.gstatic.com/firebasejs/10.8.0/"
-        }
-    }
-</script>
 
     <script type="module">
-        // Verificação de login
-        if (!sessionStorage.getItem('admin_logado')) window.location.href = 'index.html';
 
-        // Importe todas as funções necessárias de uma vez
-        import { initializeApp } from "https://gstatic.com";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import {
             getFirestore,
-            doc,
-            getDoc,
-            updateDoc,
             collection,
-            getDocs
-        } from "https://gstatic.com";
+            getDocs,
+            deleteDoc,
+            doc,
+            updateDoc
+        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-        // import { getFirestore, doc, getDoc } from "https://gstatic.com";
-        // import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        // import { getFirestore, collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        const firebaseConfig = window.parent && window.parent.configGlobal ? window.parent.configGlobal : {};
+        import firebaseConfig from "./assets/js/firebase-config.js";
 
-        // CONFIGURAÇÃO DO FIREBASE (
-        (function () {
-            const dadosPai = firebaseConfig;
+        // 🔐 proteção admin
+        if (!sessionStorage.getItem("admin_logado")) {
+            window.location.href = "login.html";
+        }
 
-            if (dadosPai) {
-                console.log("Dados recebidos do Pai:", dadosPai);
-            } else {
-                console.error("Erro: A variável 'firebaseConfig' não foi encontrada na página pai.");
-            }
-        })();
-
+        window.editArticle = function (id) {
+            window.location.href = `article.html?id=${id}`;
+        }
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-        const articlesRef = collection(db, "articles");
-        const metadataRef = doc(db, "metadata", "Q8KwxakzV9gKExncbXdf");
 
-        // 3. Torna as funções disponíveis para o resto do seu script
-        window.db = db;
-        window.getDoc = getDoc;
-        window.doc = doc;
-        window.updateDoc = updateDoc;
+        const table = document.getElementById("articlesTable");
 
-        let profileData = {}; // para armazenar dados do escritório
+        const statusFlow = ["draft", "reviewed", "published"];
+
+        // guardar valor original
+        const originalStatusMap = {};
 
 
-        // Carregar perfil do escritório
-        async function carregarPerfil() {
-            try {
-                const snap = await getDoc(metadataRef);
-                if (snap.exists()) profileData = snap.data();
-            } catch (e) { console.warn("Perfil não carregado", e); }
-        }
+        function setupStatusListeners() {
 
-        function showToast(msg, isError = false) {
-            const toastEl = document.getElementById('liveToast');
-            toastEl.classList.remove('bg-success', 'bg-danger');
-            toastEl.classList.add(isError ? 'bg-danger' : 'bg-success');
-            document.getElementById('toastMsg').innerText = msg;
-            new bootstrap.Toast(toastEl, { delay: 3000 }).show();
-        }
+            document.querySelectorAll(".status-select").forEach(select => {
 
-        // ========== FUNÇÕES DE GERAÇÃO SIMULADA (IA) ==========
-        function gerarPromptIA(userInput, focus, perfil) {
-            return `Você é um assistente de marketing para ${perfil.name || 'escritório'}. 
-        Tema: ${userInput.title || 'artigo jurídico'}. Palavra-chave: ${userInput.primaryKeyword || 'não informada'}.
-        Foco: ${focus === 'global' ? 'Autoridade global' : 'Atendimento local'}.
-        Objetivo: ${userInput.intent}. Use tom ${document.getElementById('tone').value}.
-        Com base no snippet: "${userInput.initial_snippet || ''}" e no texto completo abaixo, gere:
-        - Meta Title (até 60 caracteres)
-        - Meta Description (140-160 caracteres)
-        - Perfil do autor (mencione ${perfil.name} com ${perfil.phone || 'contato'})
-        - Schema Type (Article, FAQ)
-        - Conceitos destacados (3 itens)
-        Texto completo: ${userInput.fullTextFromUser || 'Problema -> Lei -> Prática -> CTA'}`;
-        }
+                const id = select.getAttribute("data-id");
 
-        function gerarArtigoHTML(userInput, resultData, focus, perfil) {
-            const nomeEscritorio = perfil.name || 'Escritório';
-            const endereco = perfil.address ? `${perfil.address.street}, ${perfil.address.city}` : '';
-            const cta = resultData.CTA || (focus === 'local' ? `Agende uma consulta presencial: ${perfil.phone}` : `Fale conosco: ${perfil.website}`);
-            return `
-        <article style="max-width:800px; margin:0 auto; font-family: Inter, sans-serif; padding:20px;">
-            <h1>${resultData.title || userInput.title}</h1>
-            <p><strong>Por ${nomeEscritorio}</strong> | Atualizado em ${new Date().toLocaleDateString()}</p>
-            <hr>
-            <p>${userInput.initial_snippet || ''}</p>
-            <h2>O que você precisa saber</h2>
-            <p>${userInput.fullTextFromUser || 'Conteúdo do artigo aqui...'}</p>
-            ${resultData.bullets && resultData.bullets.length ? `<ul>${resultData.bullets.map(b => `<li>${b}</li>`).join('')}</ul>` : ''}
-            <div class="cta" style="background:#f8fafc; padding:15px; border-radius:12px; margin-top:20px;">
-                <strong>${cta}</strong>
-            </div>
-            ${focus === 'local' && endereco ? `<p>📍 ${endereco} - ${perfil.phone}</p>` : ''}
-        </article>`;
-        }
+                originalStatusMap[id] = select.value;
 
-        function gerarOtimizacaoEAutomatica() {
-            const user = {
-                title: document.getElementById('user_title').value,
-                primaryKeyword: document.getElementById('primaryKeyword').value,
-                intent: document.getElementById('intent').value,
-                initial_snippet: document.getElementById('initial_snippet').value,
-                fullTextFromUser: document.getElementById('fullTextFromUser').value
-            };
-            const focus = document.getElementById('focus').value;
-            const tone = document.getElementById('tone').value;
-            const nomePerfil = profileData.name || 'Escritório Dr. João Silva';
+                select.addEventListener("change", () => {
 
-            // Meta Title
-            let metaTitle = user.title ? `${user.title.substring(0, 60)}` : `Saiba tudo sobre ${user.primaryKeyword || 'seu direito'}`;
-            document.getElementById('metaTitle').value = metaTitle;
-            // Meta Description
-            let metaDesc = user.initial_snippet ? user.initial_snippet.substring(0, 160) : `Entenda seus direitos sobre ${user.primaryKeyword}. ${focus === 'local' ? 'Atendimento em sua cidade.' : 'Consultoria especializada.'}`;
-            document.getElementById('metaDescription').value = metaDesc;
-            // Perfil autor
-            document.getElementById('authorProfile').value = `${nomePerfil}, com 10 anos de experiência na área, especialista em ${user.title || 'Direito'}. Contato: ${profileData.phone || '(19) 99999-9999'}`;
-            // Schema Type
-            document.getElementById('schemaType').value = '["Article", "FAQ"]';
-            // Conceitos destacados
-            document.getElementById('conceptsHighlighted').value = `${user.primaryKeyword || 'palavra-chave'}\nBenefícios para o cliente\nPasso a passo prático`;
-            // Prompt gerado
-            const prompt = gerarPromptIA(user, focus, profileData);
-            document.getElementById('generatedPrompt').value = prompt;
-        }
+                    const applyBtn = document.getElementById(`apply-${id}`);
+                    const cancelBtn = document.getElementById(`cancel-${id}`);
 
-        function gerarResultadoAutomatico() {
-            const user = {
-                title: document.getElementById('user_title').value,
-                primaryKeyword: document.getElementById('primaryKeyword').value,
-                initial_snippet: document.getElementById('initial_snippet').value,
-                fullTextFromUser: document.getElementById('fullTextFromUser').value
-            };
-            const focus = document.getElementById('focus').value;
-            const tone = document.getElementById('tone').value;
-            const nomePerfil = profileData.name || 'Escritório';
-
-            // Título final
-            let resultTitle = user.title || `Tudo sobre ${user.primaryKeyword}`;
-            document.getElementById('resultTitle').value = resultTitle;
-
-            // Texto adaptado (resumo)
-            let adaptedText = `${user.initial_snippet || 'Descubra agora como isso funciona.'} ${user.fullTextFromUser ? user.fullTextFromUser.substring(0, 300) : 'Entre em contato para mais detalhes.'}`;
-            document.getElementById('resultText').value = adaptedText;
-
-            // Bullets
-            let bullets = [`✅ ${user.primaryKeyword || 'Direito'} explicado de forma simples`, "✅ Saiba o que fazer", focus === 'local' ? "✅ Atendimento presencial rápido" : "✅ Consultoria online disponível"];
-            document.getElementById('bullets').value = bullets.join('; ');
-
-            // Hashtags
-            let hashtags = [`#${(user.primaryKeyword || 'direito').replace(/\s/g, '')}`, "#advogado", focus === 'local' ? "#cidade" : "#online"];
-            document.getElementById('hashtags').value = hashtags.join(' ');
-
-            // CTA
-            let cta = focus === 'local' ? `Agende sua consulta presencial: ${profileData.phone || '(19) 99999-9999'}` : `Fale com um especialista: ${profileData.website || 'nosso site'}`;
-            document.getElementById('CTA').value = cta;
-
-            // Artigo HTML completo
-            const resultMock = {
-                title: resultTitle,
-                CTA: cta,
-                bullets: bullets
-            };
-            const artigoHTML = gerarArtigoHTML(user, resultMock, focus, profileData);
-            document.getElementById('generatedArticle').value = artigoHTML;
-        }
-
-        // ========== CRUD ARTIGOS ==========
-        async function carregarArtigos() {
-            const listaDiv = document.getElementById('listaArtigos');
-            listaDiv.innerHTML = `<div class="col-12 text-center py-5"><div class="spinner-border text-primary"></div><p>Carregando...</p></div>`;
-            try {
-                const snapshot = await getDocs(articlesRef);
-                if (snapshot.empty) {
-                    listaDiv.innerHTML = `<div class="col-12 text-center py-5"><i class="ti ti-mood-empty fs-1 text-muted"></i><p>Nenhum artigo encontrado.</p></div>`;
-                    return;
-                }
-                let html = '';
-                snapshot.forEach(docSnap => {
-                    const data = docSnap.data();
-                    const id = docSnap.id;
-                    const title = data.result?.title || data.user_input?.title || 'Sem título';
-                    const status = Array.isArray(data.user_input?.status) ? data.user_input.status[0] : (data.user_input?.status || 'draft');
-                    let statusClass = status === 'published' ? 'badge-published' : (status === 'reviewed' ? 'badge-reviewed' : 'badge-draft');
-                    const focus = data.user_input?.focus === 'local' ? '🏢 Local' : '🌍 Global';
-                    const snippet = data.user_input?.initial_snippet || '';
-                    html += `
-                    <div class="col-md-6 col-lg-4">
-                        <div class="card-artigo p-3 d-flex flex-column">
-                            <div class="d-flex justify-content-between align-items-start mb-2">
-                                <h6 class="fw-semibold mb-0 text-truncate" style="max-width: 55%;">${escapeHtml(title)}</h6>
-                                <div><span class="badge-status ${statusClass} me-1">${status}</span><span class="badge-status bg-light">${focus}</span></div>
-                            </div>
-                            <div class="small text-muted mb-2">${escapeHtml(snippet.substring(0, 100))}</div>
-                            <div class="mt-auto d-flex gap-2 pt-2 flex-wrap">
-                                <button class="btn btn-sm btn-outline-primary rounded-pill px-3" onclick="editarArtigo('${id}')"><i class="ti ti-edit me-1"></i> Editar</button>
-                                <button class="btn btn-sm btn-outline-danger rounded-pill px-3" onclick="excluirArtigo('${id}')"><i class="ti ti-trash me-1"></i> Excluir</button>
-                                <button class="btn btn-sm btn-outline-info rounded-pill px-3" onclick="exportarPDF('${id}')"><i class="ti ti-file-pdf me-1"></i> PDF</button>
-                                <button class="btn btn-sm btn-outline-secondary rounded-pill px-3" onclick="exportarHTML('${id}')"><i class="ti ti-code me-1"></i> HTML</button>
-                            </div>
-                        </div>
-                    </div>
-                `;
+                    if (select.value !== originalStatusMap[id]) {
+                        applyBtn.classList.remove("d-none");
+                        cancelBtn.classList.remove("d-none");
+                    } else {
+                        applyBtn.classList.add("d-none");
+                        cancelBtn.classList.add("d-none");
+                    }
                 });
-                listaDiv.innerHTML = html;
-            } catch (error) {
-                listaDiv.innerHTML = `<div class="col-12 text-center text-danger">Erro: ${error.message}</div>`;
-            }
+            });
         }
 
-        function escapeHtml(str) { if (!str) return ''; return str.replace(/[&<>]/g, function (m) { if (m === '&') return '&amp;'; if (m === '<') return '&lt;'; if (m === '>') return '&gt;'; return m; }); }
+        window.applyStatus = async function (id) {
 
-        window.editarArtigo = async function (id) {
-            try {
-                const snapshot = await getDocs(articlesRef);
-                let data = null;
-                snapshot.forEach(d => { if (d.id === id) data = d.data(); });
-                if (!data) throw new Error("Não encontrado");
-                document.getElementById('artigoId').value = id;
-                document.getElementById('modalTitleArtigo').innerText = 'Editar Artigo';
-                // Preencher user_input
-                const u = data.user_input || {};
-                document.getElementById('user_title').value = u.title || '';
-                document.getElementById('primaryKeyword').value = u.primaryKeyword || '';
-                document.getElementById('focus').value = u.focus || 'global';
-                document.getElementById('intent').value = u.intent || 'informativo_conversao';
-                document.getElementById('status').value = Array.isArray(u.status) ? u.status[0] : (u.status || 'draft');
-                document.getElementById('suggested_sector').value = u.suggested_sector || '';
-                document.getElementById('suggested_objective').value = u.suggested_objective || '';
-                document.getElementById('initial_snippet').value = u.initial_snippet || '';
-                document.getElementById('fullTextFromUser').value = u.fullTextFromUser || '';
-                document.getElementById('sector').value = (u.sector || []).join(', ');
-                document.getElementById('objective').value = (u.objective || []).join(', ');
-                document.getElementById('trends_data').value = u.trends_data || '';
-                document.getElementById('shortSummary').value = u.shortSummary || '';
-                // otimization
-                const o = data.otimization || {};
-                document.getElementById('authorProfile').value = o.authorProfile || '';
-                document.getElementById('metaTitle').value = o.metaTitle || '';
-                document.getElementById('metaDescription').value = o.metaDescription || '';
-                document.getElementById('tone').value = o.tone || 'intermediate';
-                document.getElementById('hasBeenRevised').value = o.hasBeenRevised ? 'true' : 'false';
-                document.getElementById('schemaType').value = Array.isArray(o.schemaType) ? JSON.stringify(o.schemaType) : (o.schemaType || '');
-                document.getElementById('conceptsHighlighted').value = (o.conceptsHighlighted || []).join('\n');
-                // result
-                const r = data.result || {};
-                document.getElementById('resultTitle').value = r.title || '';
-                document.getElementById('resultText').value = r.text || '';
-                document.getElementById('bullets').value = (r.bullets || []).join('; ');
-                document.getElementById('hashtags').value = (r.hashtags || []).join(' ');
-                document.getElementById('CTA').value = r.CTA || '';
-                document.getElementById('generatedPrompt').value = r.generatedPrompt || '';
-                document.getElementById('generatedArticle').value = r.generatedArticle || '';
-                // Abrir modal
-                new bootstrap.Modal(document.getElementById('modalArtigo')).show();
-            } catch (error) { showToast(error.message, true); }
-        };
+            const select = document.querySelector(`.status-select[data-id="${id}"]`);
+            const newStatus = select.value;
 
-        window.excluirArtigo = async function (id) {
-            if (!confirm('Excluir permanentemente?')) return;
-            try {
-                await deleteDoc(doc(db, "articles", id));
-                showToast('Artigo excluído');
-                carregarArtigos();
-            } catch (e) { showToast(e.message, true); }
-        };
+            await updateDoc(doc(db, "articles", id), {
+                "user_input.status": [newStatus]
+            });
 
-        // Exportações
-        window.exportarPDF = async function (id) {
-            try {
-                const snapshot = await getDocs(articlesRef);
-                let data = null;
-                snapshot.forEach(d => { if (d.id === id) data = d.data(); });
-                if (!data || !data.result?.generatedArticle) {
-                    showToast('Nenhum artigo gerado para exportar. Gere o resultado final primeiro.', true);
-                    return;
-                }
-                const htmlContent = data.result.generatedArticle;
-                const tempDiv = document.createElement('div');
-                tempDiv.innerHTML = htmlContent;
-                tempDiv.style.padding = '20px';
-                document.body.appendChild(tempDiv);
-                html2pdf().from(tempDiv).set({ margin: 1, filename: `artigo_${id}.pdf` }).save().then(() => {
-                    document.body.removeChild(tempDiv);
-                    showToast('PDF exportado!');
-                });
-            } catch (e) { showToast('Erro ao gerar PDF: ' + e.message, true); }
-        };
+            originalStatusMap[id] = newStatus;
 
-        window.exportarHTML = async function (id) {
-            try {
-                const snapshot = await getDocs(articlesRef);
-                let data = null;
-                snapshot.forEach(d => { if (d.id === id) data = d.data(); });
-                if (!data || !data.result?.generatedArticle) {
-                    showToast('Nenhum artigo gerado para exportar.', true);
-                    return;
-                }
-                const htmlBlob = new Blob([data.result.generatedArticle], { type: 'text/html' });
-                const link = document.createElement('a');
-                link.href = URL.createObjectURL(htmlBlob);
-                link.download = `artigo_${id}.html`;
-                link.click();
-                URL.revokeObjectURL(link.href);
-                showToast('HTML exportado!');
-            } catch (e) { showToast(e.message, true); }
-        };
+            document.getElementById(`apply-${id}`).classList.add("d-none");
+            document.getElementById(`cancel-${id}`).classList.add("d-none");
+        }
 
-        // Salvar artigo (criar/editar)
-        document.getElementById('btnSalvarArtigo').addEventListener('click', async () => {
-            const id = document.getElementById('artigoId').value;
+        window.cancelStatus = function (id) {
 
-            // VALIDAÇÃO CRÍTICA PARA O CTO:
-            if (!id) {
-                console.error("Operação abortada: ID do artigo está indefinido.");
-                alert("Erro: Não foi possível identificar o artigo para salvar.");
-                return;
-            }
+            const select = document.querySelector(`.status-select[data-id="${id}"]`);
 
-            const user_input = {
-                title: document.getElementById('user_title').value,
-                primaryKeyword: document.getElementById('primaryKeyword').value,
-                focus: document.getElementById('focus').value,
-                intent: document.getElementById('intent').value,
-                status: document.getElementById('status').value,
-                suggested_sector: document.getElementById('suggested_sector').value,
-                suggested_objective: document.getElementById('suggested_objective').value,
-                initial_snippet: document.getElementById('initial_snippet').value,
-                fullTextFromUser: document.getElementById('fullTextFromUser').value,
-                sector: document.getElementById('sector').value.split(',').map(s => s.trim()).filter(s => s),
-                objective: document.getElementById('objective').value.split(',').map(s => s.trim()).filter(s => s),
-                trends_data: document.getElementById('trends_data').value,
-                shortSummary: document.getElementById('shortSummary').value,
-                suggestion_id: Date.now(),
-                article_id: id ? undefined : Date.now()
-            };
-            const otimization = {
-                authorProfile: document.getElementById('authorProfile').value,
-                metaTitle: document.getElementById('metaTitle').value,
-                metaDescription: document.getElementById('metaDescription').value,
-                tone: document.getElementById('tone').value,
-                hasBeenRevised: document.getElementById('hasBeenRevised').value === 'true',
-                schemaType: (() => { try { return JSON.parse(document.getElementById('schemaType').value); } catch { return []; } })(),
-                conceptsHighlighted: document.getElementById('conceptsHighlighted').value.split('\n').filter(l => l.trim())
-            };
-            const result = {
-                title: document.getElementById('resultTitle').value,
-                text: document.getElementById('resultText').value,
-                bullets: document.getElementById('bullets').value.split(';').map(b => b.trim()).filter(b => b),
-                hashtags: document.getElementById('hashtags').value.split(/\s+/).filter(h => h.startsWith('#')),
-                CTA: document.getElementById('CTA').value,
-                generatedPrompt: document.getElementById('generatedPrompt').value,
-                generatedArticle: document.getElementById('generatedArticle').value
-            };
-            const now = new Date().toISOString();
-            const data = { user_input, otimization, result, updatedAt: now };
-            if (!id) data.createdAt = now;
-            try {
+            select.value = originalStatusMap[id];
 
+            document.getElementById(`apply-${id}`).classList.add("d-none");
+            document.getElementById(`cancel-${id}`).classList.add("d-none");
+        }
 
-                if (id) await updateDoc(doc(db, "articles", id), data);
-                else await addDoc(articlesRef, data);
-                showToast('Artigo salvo!');
-                bootstrap.Modal.getInstance(document.getElementById('modalArtigo')).hide();
-                carregarArtigos();
-            } catch (e) { showToast(e.message, true); }
+        table.innerHTML = "";
+
+        const snap = await getDocs(collection(db, "articles"));
+
+        snap.forEach((docSnap) => {
+
+            const data = docSnap.data();
+            const id = docSnap.id;
+
+            const status = data?.user_input?.status?.[0] || "draft";
+
+            const tr = document.createElement("tr");
+
+            tr.innerHTML = `
+                                <td>
+                                    <strong>${data?.result?.title || data?.user_input?.title || "Sem título"}</strong>
+                                </td>
+
+                                <td>
+                                    ${data?.updatedAt ? new Date(data.updatedAt).toLocaleString() : "-"}
+                                </td>
+
+                                <td>
+                                    <select class="form-select form-select-sm status-select" data-id="${id}">
+                                        <option value="draft" ${status === "draft" ? "selected" : ""}>Draft</option>
+                                        <option value="reviewed" ${status === "reviewed" ? "selected" : ""}>Reviewed</option>
+                                        <option value="published" ${status === "published" ? "selected" : ""}>Published</option>
+                                    </select>
+                                </td>
+
+                                <td>
+                                    <button class="btn btn-primary btn-sm" onclick="editArticle('${id}')">
+                                        Editar
+                                    </button>
+
+                                    <select id="media-${id}" class="form-select form-select-sm d-inline-block w-auto">
+                                        <option value="facebook">Facebook</option>
+                                        <option value="instagram">Instagram</option>
+                                        <option value="jusbrasil">JusBrasil</option>
+                                        <option value="linkedin">LinkedIn</option>
+                                        <option value="pinterest">Pinterest</option>
+                                        <option value="threads">Threads</option>
+                                        <option value="tiktok">TikTok</option>
+                                        <option value="whatsapp">WhatsApp</option>
+                                        <option value="x_twitter">X/Twitter</option>
+                                        <option value="youtube">YouTube</option>
+                                    </select>
+
+                                    <button class="btn btn-dark btn-sm" onclick="generateMedia('${id}')">
+                                        Gerar Media
+                                    </button>
+
+                                    <!-- BOTÕES DINÂMICOS -->
+                                    <button class="btn btn-success btn-sm d-none" id="apply-${id}" onclick="applyStatus('${id}')">
+                                        Aplicar
+                                    </button>
+
+                                    <button class="btn btn-secondary btn-sm d-none" id="cancel-${id}" onclick="cancelStatus('${id}')">
+                                        Cancelar
+                                    </button>
+
+                                </td>
+                            `;
+
+            table.appendChild(tr);
         });
 
-        // Eventos dos botões de geração
-        document.getElementById('gerarOtimizacaoBtn').addEventListener('click', () => {
-            gerarOtimizacaoEAutomatica();
-            showToast('Otimização/SEO gerada! Edite se necessário.');
-        });
-        document.getElementById('gerarResultadoBtn').addEventListener('click', () => {
-            gerarResultadoAutomatico();
-            showToast('Resultado final gerado! Você pode ajustar manualmente.');
-        });
 
-        window.abrirModalCriar = function () {
-            document.getElementById('artigoId').value = '';
-            document.getElementById('modalTitleArtigo').innerText = 'Novo Artigo';
-            document.getElementById('formArtigo').reset();
-            document.getElementById('focus').value = 'global';
-            document.getElementById('intent').value = 'informativo_conversao';
-            document.getElementById('status').value = 'draft';
-            document.getElementById('tone').value = 'intermediate';
-            new bootstrap.Modal(document.getElementById('modalArtigo')).show();
-        };
+        // ✏️ editar
+        window.editArticle = function (id) {
+            window.location.href = `article.html?id=${id}`;
+        }
 
-        // Inicialização
-        await carregarPerfil();
-        carregarArtigos();
 
-        // Expor globais
-        window.editarArtigo = editarArtigo;
-        window.excluirArtigo = excluirArtigo;
-        window.exportarPDF = exportarPDF;
-        window.exportarHTML = exportarHTML;
-        window.abrirModalCriar = abrirModalCriar;
+        // 🔁 mudar status
+        window.changeStatus = async function (id, current) {
+
+            const nextIndex = (statusFlow.indexOf(current) + 1) % statusFlow.length;
+            const nextStatus = statusFlow[nextIndex];
+
+            await updateDoc(doc(db, "articles", id), {
+                "user_input.status": [nextStatus]
+            });
+
+            loadArticles();
+        }
+
+        // 🎬 gerar media
+        window.generateMedia = function (id) {
+
+            const select = document.getElementById(`media-${id}`);
+            const media = select.value;
+
+            window.location.href = `createMedia.html?artigo=${id}&media=${media}`;
+        }
+
+        // ➕ novo artigo
+        window.novoArtigo = function () {
+            window.location.href = `createMedia.html?artigo=new`;
+        }
+
+        loadArticles();
+
+
+        // 📌 carregar artigos
+        async function loadArticles() {
+
+            table.innerHTML = "";
+
+            const snap = await getDocs(collection(db, "articles"));
+
+            snap.forEach((docSnap) => {
+
+                const data = docSnap.data();
+                const id = docSnap.id;
+
+                const tr = document.createElement("tr");
+
+                tr.innerHTML = `
+            <td>
+                <strong>${data?.result?.title || data?.user_input?.title || "Sem título"}</strong>
+            </td>
+
+            <td>
+                ${data?.updatedAt ? new Date(data.updatedAt).toLocaleString() : "-"}
+            </td>
+
+            <td>
+                <select class="form-select form-select-sm status-select" data-id="${id}">
+                    <option value="draft" ${status === "draft" ? "selected" : ""}>Draft</option>
+                    <option value="reviewed" ${status === "reviewed" ? "selected" : ""}>Reviewed</option>
+                    <option value="published" ${status === "published" ? "selected" : ""}>Published</option>
+                </select>
+            </td>
+
+            <td>
+                <button class="btn btn-primary btn-sm" onclick="editArticle('${id}')">
+                    Editar
+                </button>
+
+                <select id="media-${id}" class="form-select form-select-sm d-inline-block w-auto">
+                    <option value="facebook">Facebook</option>
+                    <option value="instagram">Instagram</option>
+                    <option value="jusbrasil">JusBrasil</option>
+                    <option value="linkedin">LinkedIn</option>
+                    <option value="pinterest">Pinterest</option>
+                    <option value="threads">Threads</option>
+                    <option value="tiktok">TikTok</option>
+                    <option value="whatsapp">WhatsApp</option>
+                    <option value="x_twitter">X/Twitter</option>
+                    <option value="youtube">YouTube</option>
+                </select>
+
+                <button class="btn btn-dark btn-sm" onclick="generateMedia('${id}')">
+                    Gerar Media
+                </button>
+
+                <button class="btn btn-success btn-sm d-none" id="apply-${id}" onclick="applyStatus('${id}')">
+                    Aplicar
+                </button>
+
+                <button class="btn btn-secondary btn-sm d-none" id="cancel-${id}" onclick="cancelStatus('${id}')">
+                    Cancelar
+                </button>
+
+            </td>
+        `;
+
+                table.appendChild(tr);
+            });
+
+            setupStatusListeners(); // 🔥 IMPORTANTE
+        }
+
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 
 </html>
